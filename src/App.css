@@ -1,0 +1,150 @@
+html {
+  background-color: #257df0;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes blinkPink {
+  78% {
+    color: inherit;
+    text-shadow: none;
+  }
+  79% {
+    text-shadow: 0px 0px 10px #ff39b0;
+  }
+  80% {
+    text-shadow: none;
+  }
+  81% {
+    color: inherit;
+    text-shadow: none;
+  }
+  82% {
+    text-shadow: 0px 0px 10px #ff39b0;
+  }
+  83% {
+    color: inherit;
+    text-shadow: none;
+  }
+  92% {
+    text-shadow: 0px 0px 10px #ff39b0;
+  }
+  92.5% {
+    color: inherit;
+    text-shadow: none;
+  }
+}
+
+@keyframes blinkBlue {
+  78% {
+    color: inherit;
+    text-shadow: none;
+  }
+  79% {
+    text-shadow: 0px 0px 10px #61dafb;
+  }
+  80% {
+    text-shadow: none;
+  }
+  81% {
+    color: inherit;
+    text-shadow: none;
+  }
+  82% {
+    text-shadow: 0px 0px 10px #61dafb;
+  }
+  83% {
+    color: inherit;
+    text-shadow: none;
+  }
+  92% {
+    text-shadow: 0px 0px 10px #61dafb;
+  }
+  92.5% {
+    color: inherit;
+    text-shadow: none;
+  }
+}
+
+@keyframes blinkLemon {
+  78% {
+    color: inherit;
+    text-shadow: none;
+  }
+  79% {
+    text-shadow: 0px 0px 10px #f9ff01;
+  }
+  80% {
+    text-shadow: none;
+  }
+  81% {
+    color: inherit;
+    text-shadow: none;
+  }
+  82% {
+    text-shadow: 0px 0px 10px #f9ff01;
+  }
+  83% {
+    color: inherit;
+    text-shadow: none;
+  }
+  92% {
+    text-shadow: 0px 0px 10px #f9ff01;
+  }
+  92.5% {
+    color: inherit;
+    text-shadow: none;
+  }
+}
+
+.blink-pink {
+  animation: blinkPink linear infinite 3s;
+}
+
+.blink-blue {
+  animation: blinkBlue linear infinite 4s;
+}
+
+.blink-lemon {
+  animation: blinkLemon linear infinite 3s;
+}
+
+@keyframes blinkingIcon {
+  0% {
+    fill: #00ffff;
+    filter: drop-shadow(0 0 10px #00ebff);
+  }
+
+  33% {
+    fill: transparent;
+  }
+
+  49% {
+    fill: #00ffff;
+    filter: drop-shadow(0 0 10px #00ebff);
+  }
+  60% {
+    fill: transparent;
+  }
+  99% {
+    fill: transparent;
+  }
+  100% {
+    fill: #00ffff;
+    filter: drop-shadow(0 0 10px #00ebff);
+  }
+}
+.blinking {
+  animation: blinkingIcon 1.2s infinite;
+}
