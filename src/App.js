@@ -133,13 +133,13 @@ function App() {
         </div>
         <div className="relative z-20 text-center mt-24">
           <div
-            onClick={() => setTicModVis(true)}
+            // onClick={() => setTicModVis(true)}
             className="w-max-xs md:w-80 mx-5 md:mx-auto my-4 px-5 py-2 uppercase text-2xl bg-blue-dark/80 border border-blue hover:border-slate-900 rounded text-blue hover:text-slate-900 items-center hover:shadow-blue hover:cursor-pointer hover:bg-blue/10 transition-all"
           >
             Enter Now
           </div>
           <div
-            onClick={() => setCheckModVis(true)}
+            // onClick={() => setCheckModVis(true)}
             className="w-max-xs md:w-80 mx-5 md:mx-auto my-4 px-5 py-2 uppercase text-2xl bg-blue-dark/80  border border-lemon hover:border-slate-900 rounded text-lemon hover:text-slate-900 items-center hover:shadow-lemon hover:cursor-pointer hover:bg-lemon/10 transition-all"
           >
             Am I a winner?
