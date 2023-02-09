@@ -4,7 +4,7 @@
 
 @layer components {
   .nav-link {
-    @apply flex lg:inline text-neutral-900 py-5 px-5 lg:p-0 mx-7 font-semibold hover:text-blue transition-all;
+    @apply flex lg:inline text-lemon py-5 px-5 lg:p-0 mx-7 hover:underline hover:text-lemon transition-all;
   }
   th,
   td {
@@ -13,11 +13,18 @@
   body {
     @apply text-neutral-900;
   }
+
+  .icon-context-sidebar {
+    @apply mx-1;
+  }
+  .sidebar-item {
+    @apply my-2 p-2 rounded-md flex items-center hover:bg-gray-200;
+  }
 }
 
 @layer utilities {
   .nav-link:hover {
-    text-shadow: 0px 0px 4px #00ebff;
+    text-shadow: 0px 0px 4px #f9ff01;
   }
 
   .logo {

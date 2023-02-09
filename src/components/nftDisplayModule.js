@@ -6,7 +6,7 @@ import yieldling from "../assets/yieldling.png";
 export default function nftDisplayModule() {
   return (
     <div
-      className="relative justify-between bg-cover max-w-lg h-[39rem] rounded-2xl mx-5 sm:m-auto"
+      className="relative justify-between bg-cover sm:max-w-lg h-[39rem] rounded-2xl mx-5 sm:m-auto"
       style={{ backgroundImage: `url(${nftbg})` }}
     >
       <div className="absolute w-full" style={{ transform: "translateZ(0)" }}>

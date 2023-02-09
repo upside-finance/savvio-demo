@@ -1,11 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function navbarItems() {
   return (
     <div>
-      <a href="#" className="nav-link">
-        DApp (Coming Soon)
-      </a>
+      <Link to="/dapp" className="nav-link">
+        DApp
+      </Link>
+      <Link to="/" className="nav-link lg:hidden">
+        Home
+      </Link>
     </div>
   );
 }

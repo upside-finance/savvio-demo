@@ -11,16 +11,16 @@ export default function winnerHistory() {
       <table className=" w-full hidden md:table text-white mt-12 mb-4 mx-auto text-left">
         <thead>
           <tr>
-            <th className="text-gray-900 px-5 md:text-sm lg:text-lg font-normal text-lemon-light pr-10">
+            <th className="text-slate-900 px-5 md:text-sm lg:text-lg font-normal  pr-10">
               Transaction ID
             </th>
-            <th className="text-gray-900 px-5 md:text-sm lg:text-lg font-normal text-lemon-light pr-10">
+            <th className="text-slate-900 px-5 md:text-sm lg:text-lg font-normal  pr-10">
               Date/Time
             </th>
-            <th className="text-gray-900 px-5 md:text-sm lg:text-lg font-normal text-lemon-light pr-10">
+            <th className="text-slate-900 px-5 md:text-sm lg:text-lg font-normal  pr-10">
               Winner
             </th>
-            <th className="text-gray-900 px-5 md:text-sm lg:text-lg font-normal text-lemon-light pr-10">
+            <th className="text-slate-900 px-5 md:text-sm lg:text-lg font-normal  pr-10">
               Prize ID
             </th>
           </tr>
@@ -76,7 +76,7 @@ export default function winnerHistory() {
       <table className="w-full md:hidden text-white mt-8 mb-4 text-left text-sm">
         <thead>
           <tr>
-            <th className="font-md text-violet-light">Tx ID</th>
+            <th className=" font-md text-violet-light">Tx ID</th>
             <th className="font-md text-violet-light">Date</th>
             <th className="font-md text-violet-light">Winner</th>
             <th className="font-md text-violet-light">Prizes</th>

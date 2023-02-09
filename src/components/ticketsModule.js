@@ -45,12 +45,7 @@ export default function ticketsModule({ open, onClose }) {
               placeholder="12.30"
               className="text-xl text-white placeholder:text-slate-700 rounded-lg w-full h-14 p-2 bg-blue-dark border border-green"
             />
-            <NumericInput
-              type="number"
-              step=".01"
-              placeholder="12.30"
-              className="text-xl text-white placeholder:text-slate-700 rounded-lg w-full h-14 p-2 bg-blue-dark border border-green"
-            />
+
             <div className="w-full mx-auto mt-5 px-5 py-2 text-lg text-center uppercase bg-blue-dark/80 border border-blue rounded text-blue items-center hover:shadow-blue hover:cursor-pointer hover:bg-blue/10 transition-all">
               Claim your tickets
             </div>
