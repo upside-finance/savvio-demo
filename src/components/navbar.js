@@ -15,7 +15,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="bg-[#257df0]/50 backdrop-blur-lg z-50 sticky top-0">
+      <header className="bg-[#257df0]/50 backdrop-blur-lg z-50 relative top-0">
         <nav>
           {navbarElement(menuVis, setMenuVis)}
           <div className={menuClass}>

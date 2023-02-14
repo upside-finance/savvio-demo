@@ -1,15 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function navbarItems() {
+  let activeClassName = "nav-link underline";
+
   return (
     <div>
-      <Link to="/dapp" className="nav-link">
+      <NavLink
+        to="/dapp"
+        className={({ isActive }) => (isActive ? activeClassName : "nav-link")}
+      >
         DApp
-      </Link>
-      <Link to="/" className="nav-link lg:hidden">
+      </NavLink>
+      <NavLink
+        to="/"
+        className={({ isActive }) =>
+          isActive ? `lg:hidden ${activeClassName}` : "lg:hidden nav-link"
+        }
+      >
         Home
-      </Link>
+      </NavLink>
     </div>
   );
 }

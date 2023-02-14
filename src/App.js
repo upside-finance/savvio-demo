@@ -1,8 +1,9 @@
 import React from "react";
 
 import Home from "./Home";
-import Dapp from "./Dapp";
 import Navbar from "./components/Navbar";
+import Dapp from "./Dapp";
+import Portfolio from "./Portfolio";
 
 // according to RRD v6.4+
 import {
@@ -11,6 +12,7 @@ import {
   RouterProvider,
   Route,
   Outlet,
+  Navigate,
 } from "react-router-dom";
 
 const AppLayout = () => (
@@ -23,8 +25,11 @@ const AppLayout = () => (
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AppLayout />}>
-      <Route element={<Home />} path="/" />
-      <Route element={<Dapp />} path="/dapp" />
+      <Route exact path="/" element={<Home />} />
+      <Route path="/dapp" element={<Navigate to="/dapp/portfolio" replace />} />
+      <Route path="/dapp" element={<Dapp />}>
+        <Route path={"portfolio"} element={<Portfolio />} />
+      </Route>
     </Route>
   )
 );

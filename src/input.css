@@ -17,8 +17,8 @@
   .icon-context-sidebar {
     @apply mx-1;
   }
-  .sidebar-item {
-    @apply my-2 p-2 rounded-md flex items-center hover:bg-gray-200;
+  .sidebar-link {
+    @apply my-2 p-2 rounded-md flex items-center text-green-aqua hover:text-neutral-900 hover:bg-green-aqua/70;
   }
 }
 
