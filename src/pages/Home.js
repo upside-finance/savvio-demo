@@ -1,18 +1,18 @@
 import { useState } from "react";
 
-import { ReactComponent as Savvio } from "./assets/savvio.svg";
+import { ReactComponent as Savvio } from "../assets/savvio.svg";
 
-import EthCoin from "./assets/eth-coin.svg";
-import SavCoin from "./assets/sav-coin.svg";
-import AptCoin from "./assets/aptos-coin.svg";
+import EthCoin from "../assets/eth-coin.svg";
+import SavCoin from "../assets/sav-coin.svg";
+import AptCoin from "../assets/aptos-coin.svg";
 
-import "./App.css";
-import "./input.css";
-import NftModule from "./components/nftDisplayModule";
+import "../App.css";
+import "../input.css";
+import NftModule from "../components/nftDisplayModule";
 
-import WinnerHistory from "./components/winnerHistory";
-import TicketsModule from "./components/ticketsModule";
-import CheckWinnerModule from "./components/checkWinnerModule";
+import WinnerHistory from "../components/winnerHistory";
+import TicketsModule from "../components/ticketsModule";
+import CheckWinnerModule from "../components/checkWinnerModule";
 import {
   MouseParallaxContainer,
   MouseParallaxChild,

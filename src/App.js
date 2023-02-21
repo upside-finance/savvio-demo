@@ -1,9 +1,9 @@
 import React from "react";
 
-import Home from "./Home";
+import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-import Dapp from "./Dapp";
-import Portfolio from "./Portfolio";
+import Dapp from "./pages/Dapp";
+import Portfolio from "./pages/portfolio/Portfolio";
 
 // according to RRD v6.4+
 import {
