@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Sidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
 
 import {
@@ -11,9 +11,7 @@ import {
 } from "react-icons/io5";
 import { HiCode } from "react-icons/hi";
 import { FaSwimmingPool, FaTrophy } from "react-icons/fa";
-
-import { useDispatch } from "react-redux";
-import { sidebarValue } from "./sidebarSlice";
+import { ReactComponent as SavvioIcon } from "../assets/savvio-icon.svg";
 
 function debounce(fn, ms) {
   let timer;
@@ -49,68 +47,104 @@ export default function SideBar() {
   const { toggled, toggleSidebar, collapseSidebar, collapsed } =
     useProSidebar();
 
-  //redux
-  const dispatch = useDispatch();
+  //router location
+  let location = useLocation();
+
+  //router location to Title Case
+  function pathName() {
+    return location.pathname
+      .substring(1)
+      .replace("-", " ")
+      .split(" ")
+      .map(function (word) {
+        return word.replace(word[0], word[0].toUpperCase());
+      })
+      .join(" ");
+  }
 
   return (
-    <div className="flex text-left h-screen absolute md:relative">
-      <Sidebar breakPoint="sm">
+    <div className="flex text-left md:h-screen  ">
+      <Sidebar
+        breakPoint="sm"
+        rootStyles={
+          dimensions.width <= 640
+            ? {
+                position: "absolute !important",
+                backgroundColor: "white",
+                // marginTop: "5rem",
+              }
+            : {}
+        }
+      >
+        <SavvioIcon className="logo block md:hidden h-20 invert hover:drop-shadow-none" />
         <Menu>
           <MenuItem
             icon={<IoHome size={"1.3rem"} />}
             component={<Link to="portfolio" />}
-            onClick={() => dispatch(sidebarValue(0))}
+            // eslint-disable-next-line
+            onClick={() => (dispatch(sidebarValue(0)), toggleSidebar())}
           >
             Portfolio
           </MenuItem>
           <MenuItem
             icon={<IoWallet size={"1.3rem"} />}
-            onClick={() => dispatch(sidebarValue(1))}
+            component={<Link to="smart-savings" />}
+            // eslint-disable-next-line
+            onClick={() => (dispatch(sidebarValue(1)), toggleSidebar())}
           >
             Smart Savings
           </MenuItem>
           <MenuItem
             icon={<FaSwimmingPool size={"1.3rem"} />}
-            onClick={() => dispatch(sidebarValue(2))}
+            component={<Link to="liquidity" />}
+            // eslint-disable-next-line
+            onClick={() => (dispatch(sidebarValue(2)), toggleSidebar())}
           >
             Liquidity
           </MenuItem>
           <MenuItem
             icon={<FaTrophy size={"1.3rem"} />}
-            onClick={() => dispatch(sidebarValue(3))}
+            component={<Link to="rewards" />}
+            // eslint-disable-next-line
+            onClick={() => (dispatch(sidebarValue(3)), toggleSidebar())}
           >
             Rewards
           </MenuItem>
           <MenuItem
             icon={<HiCode size={"1.3rem"} />}
-            onClick={() => dispatch(sidebarValue(4))}
+            component={<Link to="developers" />}
+            // eslint-disable-next-line
+            onClick={() => (dispatch(sidebarValue(4)), toggleSidebar())}
           >
             Developers
           </MenuItem>
           <MenuItem
             icon={<IoInformationCircle size={"1.3rem"} />}
-            onClick={() => dispatch(sidebarValue(5))}
+            component={<Link to="help" />}
+            // eslint-disable-next-line
+            onClick={() => (dispatch(sidebarValue(5)), toggleSidebar())}
           >
             Help
           </MenuItem>
         </Menu>
       </Sidebar>
       <div
-        className={
-          "mt-5 " +
-          (dimensions.width <= 640 && !toggled ? "absolute" : "relative")
-        }
+        // className={
+        //   dimensions.width <= 640 && !toggled ? "w-screen" : "mt-5 relative"
+        // }
+        className="w-screen md:w-auto md:mt-5"
       >
         {dimensions.width <= 640 ? (
           <button
             onClick={() => toggleSidebar()}
-            className=" bg-white p-1 rounded-r"
+            className="w-full flex bg-white p-1 rounded-r"
           >
             {toggled ? (
               <IoChevronBack size={"1.3rem"} />
             ) : (
               <IoChevronForward size={"1.3rem"} />
             )}
+            <div className="text-left">{pathName()}</div>
           </button>
         ) : (
           <button

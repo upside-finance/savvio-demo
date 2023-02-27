@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function SmartSavings() {
-  return <div>SmartSavings</div>;
+  return <div>Smart Savings</div>;
 }

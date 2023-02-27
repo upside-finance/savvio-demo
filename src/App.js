@@ -1,8 +1,8 @@
 import React from "react";
+import "./App.css";
+import "./input.css";
 
-import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-import Dapp from "./pages/Dapp";
 import Portfolio from "./pages/portfolio/Portfolio";
 
 // according to RRD v6.4+
@@ -14,22 +14,37 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
+import SmartSavings from "./pages/smartsavings/SmartSavings";
+import Liquidity from "./pages/liquidity/Liquidity";
+import Rewards from "./pages/rewards/Rewards";
+import Help from "./pages/help/Help";
+import Developers from "./pages/developers/Developers";
+import SideBar from "./components/SideBar";
+import { ProSidebarProvider } from "react-pro-sidebar";
 
 const AppLayout = () => (
   <>
     <Navbar />
-    <Outlet />
+    <div className="flex flex-col md:flex-row">
+      <ProSidebarProvider>
+        <SideBar />
+      </ProSidebarProvider>
+      <Outlet />
+    </div>
   </>
 );
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AppLayout />}>
-      <Route exact path="/" element={<Home />} />
-      <Route path="/dapp" element={<Navigate to="/dapp/portfolio" replace />} />
-      <Route path="/dapp" element={<Dapp />}>
-        <Route path={"portfolio"} element={<Portfolio />} />
-      </Route>
+      <Route exact path="/" element={<Navigate to="/portfolio" replace />} />
+
+      <Route path={"/portfolio"} element={<Portfolio />} />
+      <Route path={"/smart-savings"} element={<SmartSavings />} />
+      <Route path={"/liquidity"} element={<Liquidity />} />
+      <Route path={"/rewards"} element={<Rewards />} />
+      <Route path={"/developers"} element={<Developers />} />
+      <Route path={"/help"} element={<Help />} />
     </Route>
   )
 );
