@@ -21,18 +21,36 @@ import Help from "./pages/help/Help";
 import Developers from "./pages/developers/Developers";
 import SideBar from "./components/SideBar";
 import { ProSidebarProvider } from "react-pro-sidebar";
+import { useWindowWidth } from "@react-hook/window-size";
 
-const AppLayout = () => (
-  <>
-    <Navbar />
-    <div className="flex flex-col md:flex-row">
-      <ProSidebarProvider>
-        <SideBar />
-      </ProSidebarProvider>
-      <Outlet />
-    </div>
-  </>
-);
+const AppLayout = () => {
+  const width = useWindowWidth();
+
+  // different layout styles for mobile and desktop
+  if (width <= 640) {
+    return (
+      <div className="flex flex-col w-full">
+        <Navbar />
+        <ProSidebarProvider>
+          <SideBar />
+        </ProSidebarProvider>
+        <Outlet />
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex flex-row">
+        <ProSidebarProvider>
+          <SideBar />
+        </ProSidebarProvider>
+        <div className="flex flex-col w-full">
+          <Navbar />
+          <Outlet />
+        </div>
+      </div>
+    );
+  }
+};
 
 const router = createBrowserRouter(
   createRoutesFromElements(
