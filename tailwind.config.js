@@ -36,6 +36,7 @@ module.exports = {
         green: "0 0 5px 0 #6fff4a, inset 0 0 5px 0 #6fff4a",
         aqua: "0 0 5px 0 #75F2D7, inset 0 0 5px 0 #75F2D7",
         slate: "0 0 5px 0 #0f172a, inset 0 0 5px 0 #0f172a",
+        small: "4px 4px 10px 0 #00000040",
       },
     },
     fontFamily: {

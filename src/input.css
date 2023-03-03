@@ -20,8 +20,15 @@
   .sidebar-link {
     @apply my-2 p-2 rounded-md flex items-center text-green-aqua hover:text-neutral-900 hover:bg-green-aqua/70;
   }
-  .button-green {
+  .button-aqua-primary {
     @apply hidden md:flex mx-6 px-5 py-2 bg-green-aqua border-2 border-green-aqua rounded-lg font-bold text-white items-center shadow-lg hover:cursor-pointer hover:bg-white hover:text-green-aqua transition-all;
+  }
+
+  .button-aqua {
+    @apply flex mx-4 px-5 py-2 bg-green-aqua  rounded-lg uppercase text-gray-dark items-center justify-center shadow-lg hover:cursor-pointer hover:bg-white hover:border-2 hover:border-green-aqua transition-all;
+  }
+  .button-gradient {
+    @apply flex mx-4 px-5 py-2  rounded-lg uppercase text-gray-dark items-center justify-center shadow-lg hover:cursor-pointer hover:bg-white hover:border-2 hover:border-green-aqua transition-all;
   }
 }
 
@@ -35,7 +42,7 @@
   } */
 
   svg:hover {
-    filter: drop-shadow(0 0 3px #00ebff);
+    filter: drop-shadow(0 0 3px #75f2d7);
   }
 
   .svg-pink:hover {

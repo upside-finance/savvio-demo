@@ -17,7 +17,7 @@ export default function NavbarItems() {
       <button onClick={() => setValueVisibility(!valueVisibility)}>
         <IconContext.Provider
           value={{
-            className: "text-green-aqua svg-green-aqua mx-2",
+            className: "text-dark-grey md:text-green-aqua svg-green-aqua mx-2",
             size: "1.5rem",
           }}
         >
@@ -29,7 +29,7 @@ export default function NavbarItems() {
           <div className="text-gray">
             {valueVisibility ? token.walletAmt : "***"}
           </div>
-          <div className="text-green-aqua">&nbsp;{token.name}</div>
+          <div className="text-gray md:text-green-aqua">&nbsp;{token.name}</div>
         </>
       ))}
     </div>

@@ -22,6 +22,7 @@ import Developers from "./pages/developers/Developers";
 import SideBar from "./components/SideBar";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import { useWindowWidth } from "@react-hook/window-size";
+import Home from "./pages/home/Home";
 
 const AppLayout = () => {
   const width = useWindowWidth();
@@ -29,12 +30,14 @@ const AppLayout = () => {
   // different layout styles for mobile and desktop
   if (width <= 640) {
     return (
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full h-screen">
         <Navbar />
         <ProSidebarProvider>
           <SideBar />
         </ProSidebarProvider>
-        <Outlet />
+        <div className="bg-white h-full w-full p-5">
+          <Outlet />
+        </div>
       </div>
     );
   } else {
@@ -45,7 +48,9 @@ const AppLayout = () => {
         </ProSidebarProvider>
         <div className="flex flex-col w-full">
           <Navbar />
-          <Outlet />
+          <div className="bg-white h-full w-full p-5">
+            <Outlet />
+          </div>
         </div>
       </div>
     );
@@ -55,8 +60,8 @@ const AppLayout = () => {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AppLayout />}>
-      <Route exact path="/" element={<Navigate to="/portfolio" replace />} />
-
+      <Route exact path="/" element={<Navigate to="/home" replace />} />
+      <Route path={"/home"} element={<Home />} />
       <Route path={"/portfolio"} element={<Portfolio />} />
       <Route path={"/smart-savings"} element={<SmartSavings />} />
       <Route path={"/liquidity"} element={<Liquidity />} />

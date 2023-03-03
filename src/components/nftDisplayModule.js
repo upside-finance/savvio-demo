@@ -1,45 +1,42 @@
 import React from "react";
 import Tilt from "react-parallax-tilt";
 import nftbg from "../assets/nft-bg.png";
-import yieldling from "../assets/yieldling.png";
+import nftimage from "../assets/thumb-nft.png";
 
 export default function nftDisplayModule() {
   return (
-    <div
-      className="relative justify-between bg-cover sm:max-w-lg h-[39rem] rounded-2xl mx-5 sm:m-auto"
-      style={{ backgroundImage: `url(${nftbg})` }}
-    >
-      <div className="absolute w-full" style={{ transform: "translateZ(0)" }}>
+    <div className="relative justify-between gradient-border bg-white  sm:max-w-lg h-96 md:h-[36rem] rounded-lg mx-5 sm:m-auto shadow-small">
+      <div className="absolute z-10 w-full bg-white px-5 mt-3">
+        <div className="flex justify-between text-grey-dark ">
+          <p className="text-2xl">Tinies #017</p>
+          <p className="text-lg">@Artistname</p>
+        </div>
+      </div>
+      <div
+        className="absolute w-full bg-white rounded-t-lg"
+        style={{ transform: "translateZ(0)" }}
+      >
         <Tilt tiltReverse={true}>
           <div
-            className=" center mx-auto my-16 bg-cover bg-center w-3/4 md:w-2/3 h-96 bg-pink rounded-lg"
-            style={{ backgroundImage: `url(${yieldling})` }}
+            className=" center mx-auto my-14 bg-cover bg-center w-10/12 h-60 md:h-[26rem] bg-pink rounded-lg shadow-small"
+            style={{ backgroundImage: `url(${nftimage})` }}
           ></div>
         </Tilt>
       </div>
 
-      <div className="absolute bottom-0 backdrop-blur-md bg-[#2E404040] rounded-b-2xl">
-        <div className="mx-5 mt-3">
-          <div className="flex justify-between text-blue text-xl">
-            <p>Yieldling Original #013</p>
-            <p>@Artistname</p>
-          </div>
-          <p className="mt-4 text-white text-left">
-            Hatching 1 at a time. 500 Flamingo Flock. All Yieldlings are 1 of 1s
-            excluding the 'Originals' and 'Yields'. There are no vaulted
-            Yieldlings.
-          </p>
-          <div className="flex justify-between mt-12 mb-7">
+      <div className="absolute bottom-0 bg-white w-full rounded-b-lg">
+        <div className="mx-5 mt-2">
+          <div className="flex justify-between mt-2 mb-4 md:mb-6">
             <div className="text-left">
-              <p className="text-white">Current Tickets</p>
+              <p className="text-grey-dark">Current Tickets</p>
               <div>
-                <p className="text-blue text-xl">1.5 Tickets</p>
+                <p className="text-green-aqua text-xl">1.5 Tickets</p>
               </div>
             </div>
             <div className="text-left">
-              <p className="text-white">Ending In</p>
+              <p className="text-grey-dark">Ending In</p>
               <div>
-                <p className="text-blue text-xl">8h 14m 24s</p>
+                <p className="text-green-aqua text-xl">8h 14m 24s</p>
               </div>
             </div>
           </div>

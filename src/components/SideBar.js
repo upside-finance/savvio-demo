@@ -20,7 +20,6 @@ import {
 import { HiCode } from "react-icons/hi";
 import { FaSwimmingPool, FaTrophy } from "react-icons/fa";
 import { ReactComponent as Savvio } from "../assets/savvio.svg";
-import { ReactComponent as SavvioIcon } from "../assets/savvio-icon.svg";
 
 export default function SideBar() {
   const width = useWindowWidth();
@@ -52,7 +51,7 @@ export default function SideBar() {
     <div
       onMouseEnter={() => collapseSidebar(false)}
       onMouseLeave={() => collapseSidebar(true)}
-      className="flex text-left uppercase "
+      className="flex md:h-screen md:sticky md:top-0 md:left-0 text-left uppercase"
     >
       <Sidebar
         defaultCollapsed
@@ -76,16 +75,39 @@ export default function SideBar() {
                   backgroundColor: "#FFFFFF",
                   padding: "0px 10px",
                 },
+
                 width: "280px",
                 minWidth: "104px !important",
+
+                "&:before": {
+                  content: '""',
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                  zIndex: 0,
+                  margin: "-2px" /* !important */,
+                  borderRadius: "inherit" /* !important */,
+                  background: `linear-gradient(
+                    355deg,
+                    #f0fe3b 0%,
+                    #c9fc6e 23.414%,
+                    #a6fa9d 43%,
+                    #8cf9bf 70.07%,
+                    #7cf8d4 88.101%,
+                    #77f8dc 100%
+                  )`,
+                },
               }
         }
       >
-        <Savvio
-          className="mt-5 ml-3  block hover:drop-shadow-none h-[64px]"
-          style={{ fill: "#2F3130" }}
-        />
-
+        <Link to="home">
+          <Savvio
+            className="mt-5 ml-3  block  h-[64px]"
+            style={{ fill: "#2F3130" }}
+          />
+        </Link>
         <Menu
           rootStyles={{
             [`.${menuClasses.button}`]: {
@@ -159,14 +181,14 @@ export default function SideBar() {
       {width <= 640 ? (
         <button
           onClick={() => toggleSidebar()}
-          className="w-screen md:w-auto md:mt-5 w-full flex bg-white p-1 rounded-r"
+          className="w-screen md:w-auto md:mt-5 w-full flex  p-1 rounded-r button-gradient-aqua focus:border-2 focus:border-green-aqua"
         >
           {toggled ? (
             <IoChevronBack size={"1.3rem"} />
           ) : (
             <IoChevronForward size={"1.3rem"} />
           )}
-          <div className="text-left">{pathName()}</div>
+          <div className="text-left ">{pathName()}</div>
         </button>
       ) : (
         ""

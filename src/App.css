@@ -1,5 +1,5 @@
 html {
-  background-color: #75f2d7;
+  background-color: #fff;
 }
 
 .App {
@@ -147,4 +147,64 @@ html {
 }
 .blinking {
   animation: blinkingIcon 1.2s infinite;
+}
+
+.button-gradient-aqua {
+  background: linear-gradient(
+    355deg,
+    #f0fe3b 0%,
+    #c9fc6e 23.414%,
+    #a6fa9d 43%,
+    #8cf9bf 70.07%,
+    #7cf8d4 88.101%,
+    #77f8dc 100%
+  );
+}
+.button-gradient-aqua:focus,
+.button-gradient-aqua:hover {
+  background: white;
+}
+
+.text-gradient-aqua {
+  background: linear-gradient(
+    200deg,
+    #f0fe3b 0%,
+    #c9fc6e 23.414%,
+    #a6fa9d 43%,
+    #8cf9bf 70.07%,
+    #7cf8d4 88.101%,
+    #77f8dc 100%
+  );
+}
+
+/* .gradient-border::after {
+  background-color: white;
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  border-radius: inherit;
+} */
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  margin: -2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    200deg,
+    #f0fe3b 0%,
+    #c9fc6e 23.414%,
+    #a6fa9d 43%,
+    #8cf9bf 70.07%,
+    #7cf8d4 88.101%,
+    #77f8dc 100%
+  );
 }
