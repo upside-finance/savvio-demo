@@ -5,7 +5,7 @@ import nftimage from "../assets/thumb-nft.png";
 
 export default function nftDisplayModule() {
   return (
-    <div className="relative justify-between gradient-border bg-white  sm:max-w-lg h-96 md:h-[36rem] rounded-lg mx-5 sm:m-auto shadow-small">
+    <div className="relative z-10 justify-between gradient-border bg-white sm:max-w-lg h-96 md:h-[36rem] rounded-lg mx-5 sm:m-auto shadow-small ">
       <div className="absolute z-10 w-full bg-white px-5 mt-3">
         <div className="flex justify-between text-grey-dark ">
           <p className="text-2xl">Tinies #017</p>
@@ -18,7 +18,7 @@ export default function nftDisplayModule() {
       >
         <Tilt tiltReverse={true}>
           <div
-            className=" center mx-auto my-14 bg-cover bg-center w-10/12 h-60 md:h-[26rem] bg-pink rounded-lg shadow-small"
+            className=" center mx-auto my-14 bg-cover bg-center w-10/12 h-60 md:h-[26rem] bg-transparent rounded-lg shadow-small hover:shadow-none"
             style={{ backgroundImage: `url(${nftimage})` }}
           ></div>
         </Tilt>

@@ -8,19 +8,19 @@ export default function winnerHistory() {
   return (
     <>
       {/* Longer format for standard screens */}
-      <table className=" w-full hidden md:table text-white mt-12 mb-4 mx-auto text-left">
+      <table className=" w-full hidden md:table text-gray-dark mt-12 mb-4 mx-auto text-left">
         <thead>
           <tr>
-            <th className="text-slate-900 px-5 md:text-sm lg:text-lg font-normal  pr-10">
+            <th className="text-green-aqua px-5 md:text-sm lg:text-lg font-medium  pr-10">
               Transaction ID
             </th>
-            <th className="text-slate-900 px-5 md:text-sm lg:text-lg font-normal  pr-10">
+            <th className="text-green-aqua px-5 md:text-sm lg:text-lg font-medium  pr-10">
               Date/Time
             </th>
-            <th className="text-slate-900 px-5 md:text-sm lg:text-lg font-normal  pr-10">
+            <th className="text-green-aqua px-5 md:text-sm lg:text-lg font-medium  pr-10">
               Winner
             </th>
-            <th className="text-slate-900 px-5 md:text-sm lg:text-lg font-normal  pr-10">
+            <th className="text-green-aqua px-5 md:text-sm lg:text-lg font-medium  pr-10">
               Prize ID
             </th>
           </tr>
@@ -33,34 +33,28 @@ export default function winnerHistory() {
                 {/* first 4 and last 4 characters of TxID */}
 
                 <td>
-                  <div className="bg-gradient-to-b from-[#16162F] to-[#0e0e1a]">
-                    <div className="p-5 md:text-sm lg:text-lg ">
-                      {winner.transaction_id.substring(0, 4)}...
-                      {winner.transaction_id.substring(
-                        winner.transaction_id.length - 4
-                      )}
-                    </div>
+                  <div className="p-5 md:text-sm lg:text-lg ">
+                    {winner.transaction_id.substring(0, 4)}...
+                    {winner.transaction_id.substring(
+                      winner.transaction_id.length - 4
+                    )}
                   </div>
                 </td>
 
                 <td>
-                  <div className="bg-gradient-to-b from-[#16162F] to-[#0e0e1a]">
-                    <div className="p-5 md:text-sm lg:text-lg ">
-                      {<Moment unix date={winner.timestamp} />}
-                    </div>
+                  <div className="p-5 md:text-sm lg:text-lg ">
+                    {<Moment unix date={winner.timestamp} />}
                   </div>
                 </td>
                 {/* first 4 and last 4 characters of account address */}
                 <td>
-                  <div className="bg-gradient-to-b from-[#16162F] to-[#0e0e1a]">
-                    <div className="p-5 md:text-sm lg:text-lg ">
-                      {winner.account.substring(0, 4)}...
-                      {winner.account.substring(winner.account.length - 4)}
-                    </div>
+                  <div className="p-5 md:text-sm lg:text-lg ">
+                    {winner.account.substring(0, 4)}...
+                    {winner.account.substring(winner.account.length - 4)}
                   </div>
                 </td>
                 <td>
-                  <div className="bg-gradient-to-b from-[#16162F] to-[#0e0e1a]">
+                  <div>
                     <div className="p-5 md:text-sm lg:text-lg ">
                       {winner.prize_id}
                     </div>
@@ -73,13 +67,13 @@ export default function winnerHistory() {
       </table>
 
       {/* Shorter format for smaller screens */}
-      <table className="w-full md:hidden text-white mt-8 mb-4 text-left text-sm">
+      <table className="w-full md:hidden text-gray-dark mt-8 mb-4 text-left text-sm">
         <thead>
           <tr>
-            <th className=" font-md text-violet-light">Tx ID</th>
-            <th className="font-md text-violet-light">Date</th>
-            <th className="font-md text-violet-light">Winner</th>
-            <th className="font-md text-violet-light">Prizes</th>
+            <th className=" font-md text-green-aqua">Tx ID</th>
+            <th className="font-md text-green-aqua">Date</th>
+            <th className="font-md text-green-aqua">Winner</th>
+            <th className="font-md text-green-aqua">Prizes</th>
           </tr>
         </thead>
         <tbody>
@@ -89,38 +83,28 @@ export default function winnerHistory() {
               <tr>
                 {/* first 4 and last 4 characters of TxID */}
                 <td>
-                  <div className="bg-gradient-to-b from-[#16162F] to-[#0e0e1a]">
-                    <div className="p-2">
-                      {winner.transaction_id.substring(0, 4)}...
-                    </div>
+                  <div className="p-2">
+                    {winner.transaction_id.substring(0, 4)}...
                   </div>
                 </td>
                 <td>
-                  <div className="bg-gradient-to-b from-[#16162F] to-[#0e0e1a]">
-                    <div className="p-2">
-                      {
-                        <Moment
-                          unix
-                          date={winner.timestamp}
-                          format="DD MMM 'YY"
-                        />
-                      }
-                    </div>
+                  <div className="p-2">
+                    {
+                      <Moment
+                        unix
+                        date={winner.timestamp}
+                        format="DD MMM 'YY"
+                      />
+                    }
                   </div>
                 </td>
                 {/* first 4 and last 4 characters of account address */}
                 <td>
-                  <div className="bg-gradient-to-b from-[#16162F] to-[#0e0e1a] ">
-                    <div className="p-2">
-                      {winner.account.substring(0, 4)}...
-                    </div>
-                  </div>
+                  <div className="p-2">{winner.account.substring(0, 4)}...</div>
                 </td>
                 <td>
-                  <div className="bg-gradient-to-b from-[#16162F] to-[#0e0e1a]">
-                    <div className="p-2">
-                      {winner.prize_id.substring(0, 4)}...
-                    </div>
+                  <div className="p-2">
+                    {winner.prize_id.substring(0, 4)}...
                   </div>
                 </td>
               </tr>

@@ -25,10 +25,13 @@
   }
 
   .button-aqua {
-    @apply flex mx-4 px-5 py-2 bg-green-aqua  rounded-lg uppercase text-gray-dark items-center justify-center shadow-lg hover:cursor-pointer hover:bg-white hover:border-2 hover:border-green-aqua transition-all;
+    @apply flex mx-4 px-5 py-2 bg-green-aqua rounded-lg uppercase text-gray-dark font-medium items-center justify-center shadow-lg hover:cursor-pointer hover:bg-white hover:border-2 hover:border-green-aqua transition-all;
   }
   .button-gradient {
-    @apply flex mx-4 px-5 py-2  rounded-lg uppercase text-gray-dark items-center justify-center shadow-lg hover:cursor-pointer hover:bg-white hover:border-2 hover:border-green-aqua transition-all;
+    @apply flex mx-4 px-5 py-2 rounded-lg uppercase text-gray-dark font-medium items-center justify-center shadow-lg hover:cursor-pointer hover:bg-white hover:border-2 hover:border-green-aqua transition-all;
+  }
+  .section {
+    @apply flex flex-col justify-evenly md:mt-8;
   }
 }
 
