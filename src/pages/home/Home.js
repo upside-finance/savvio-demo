@@ -31,9 +31,9 @@ export default function Home() {
           <NftModule />
         </div>
       </section>
-      <section className="section gradient-border z-10 relative rounded rounded-xl m-32">
-        <div className="mx-16 my-10 ">
-          <h2 className="ml-5 text-green-aqua text-3xl">Winner History</h2>
+      <section className="section gradient-border z-10 relative rounded rounded-xl my-10 mx-2 md:m-32">
+        <div className="mx-5 md:mx-16 my-10 ">
+          <h2 className="md:ml-5 text-green-aqua text-3xl">Winner History</h2>
           <WinnerHistory />
         </div>
       </section>
