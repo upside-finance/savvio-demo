@@ -1,6 +1,6 @@
 import React from "react";
-import NftModule from "../../components/nftDisplayModule";
-import WinnerHistory from "../../components/winnerHistory";
+import NftModule from "./nftDisplayModule";
+import WinnerHistory from "./winnerHistory";
 
 export default function Home() {
   return (
@@ -31,7 +31,7 @@ export default function Home() {
           <NftModule />
         </div>
       </section>
-      <section className="section gradient-border z-10 relative rounded rounded-xl my-10 mx-2 md:m-32">
+      <section className="section gradient-border z-10 relative rounded rounded-xl my-10 mx-2 md:m-32 shadow-small">
         <div className="mx-5 md:mx-16 my-10 ">
           <h2 className="md:ml-5 text-green-aqua text-3xl">Winner History</h2>
           <WinnerHistory />

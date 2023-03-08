@@ -4,12 +4,13 @@ import Moment from "react-moment";
 import { useWindowWidth } from "@react-hook/window-size";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 
-import winners from "../assets/transactions.json";
+import winners from "../../assets/transactions.json";
 
 export default function WinnerHistory() {
   const width = useWindowWidth();
 
   const [listLength, setListLength] = useState(4);
+  const [listHeight, setListHeight] = useState("1rem");
 
   return (
     <>
@@ -32,42 +33,46 @@ export default function WinnerHistory() {
               </th>
             </tr>
           </thead>
+
           <tbody>
-            {winners.slice(0, listLength).map((winner) => (
-              <>
-                <div className="md:h-1 lg:h-1" />
-                <tr className="border-dashed border-b-2">
-                  {/* first 4 and last 4 characters of TxID */}
-                  <td>
-                    <div className="p-5 md:text-sm lg:text-lg ">
-                      {winner.transaction_id.substring(0, 4)}...
-                      {winner.transaction_id.substring(
-                        winner.transaction_id.length - 4
-                      )}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="p-5 md:text-sm lg:text-lg ">
-                      {<Moment unix date={winner.timestamp} />}
-                    </div>
-                  </td>
-                  {/* first 4 and last 4 characters of account address */}
-                  <td>
-                    <div className="p-5 md:text-sm lg:text-lg ">
-                      {winner.account.substring(0, 4)}...
-                      {winner.account.substring(winner.account.length - 4)}
-                    </div>
-                  </td>
-                  <td>
-                    <div>
+            {
+              //winners.slice(0, listLength).map((winner) =>
+              winners.map((winner) => (
+                <>
+                  <div className="md:h-1 lg:h-1" />
+                  <tr className="border-dashed border-b-2">
+                    {/* first 4 and last 4 characters of TxID */}
+                    <td>
                       <div className="p-5 md:text-sm lg:text-lg ">
-                        {winner.prize_id}
+                        {winner.transaction_id.substring(0, 4)}...
+                        {winner.transaction_id.substring(
+                          winner.transaction_id.length - 4
+                        )}
                       </div>
-                    </div>
-                  </td>
-                </tr>
-              </>
-            ))}
+                    </td>
+                    <td>
+                      <div className="p-5 md:text-sm lg:text-lg ">
+                        {<Moment unix date={winner.timestamp} />}
+                      </div>
+                    </td>
+                    {/* first 4 and last 4 characters of account address */}
+                    <td>
+                      <div className="p-5 md:text-sm lg:text-lg ">
+                        {winner.account.substring(0, 4)}...
+                        {winner.account.substring(winner.account.length - 4)}
+                      </div>
+                    </td>
+                    <td>
+                      <div>
+                        <div className="p-5 md:text-sm lg:text-lg ">
+                          {winner.prize_id}
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </>
+              ))
+            }
           </tbody>
         </table>
       ) : (

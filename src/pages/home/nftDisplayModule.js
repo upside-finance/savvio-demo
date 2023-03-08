@@ -1,7 +1,20 @@
 import React from "react";
 import Tilt from "react-parallax-tilt";
-import nftbg from "../assets/nft-bg.png";
-import nftimage from "../assets/thumb-nft.png";
+import nftbg from "../../assets/nft-bg.png";
+import nftimage from "../../assets/thumb-nft.png";
+
+const countDown = 1678193769;
+
+const getReturnValues = (countDown) => {
+  const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
+
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+};
 
 export default function nftDisplayModule() {
   return (
@@ -36,7 +49,10 @@ export default function nftDisplayModule() {
             <div className="text-left">
               <p className="text-grey-dark">Ending In</p>
               <div>
-                <p className="text-green-aqua text-xl">8h 14m 24s</p>
+                <p className="text-green-aqua text-xl">
+                  {" "}
+                  {countDown != null ? getReturnValues(countDown) : "-"}
+                </p>
               </div>
             </div>
           </div>
