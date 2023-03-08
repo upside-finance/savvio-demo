@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDom from "react-dom";
+import { useSelector } from "react-redux";
+
 import { IoClose } from "react-icons/io5";
 import { IconContext } from "react-icons";
 
 import { ReactComponent as Yicon } from "../assets/yicon.svg";
 
-export default function checkWinnerModule({ open, onClose }) {
-  var modalClass = open
+export default function checkWinnerModule() {
+  const active = useSelector((state) => state.checkWinner.active);
+
+  var modalClass = active
     ? "z-10 fixed flex-col inset-1/2 -translate-x-1/2 -translate-y-1/2 m-auto rounded-2xl p-2 ease-in-out duration-300 translate-y-0 opacity-100 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip border border-pink bg-blue-dark shadow-pink"
     : "z-10 fixed flex-col inset-1/2 -translate-x-1/2 m-auto rounded-2xl p-2 ease-in-out duration-300 translate-y-full opacity-0 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip border border-pink bg-blue-dark shadow-pink";
 
@@ -15,8 +19,9 @@ export default function checkWinnerModule({ open, onClose }) {
       <div
         onClick={() => onClose(false)}
         className={`fixed inset-0 bg-black/70 backdrop-blur ease-in-out
-        ${open ? "opacity-100" : "hidden"}`}
+        ${active ? "opacity-100" : "hidden"}`}
       />
+
       <div className={modalClass}>
         <IconContext.Provider
           value={{
