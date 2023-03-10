@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import checkWinnerReducer from "../components/checkWinner/checkWinnerSlice";
+import uiReducer from "./uiSlice";
 
 export default configureStore({
   reducer: {
-    checkWinner: checkWinnerReducer,
+    ui: uiReducer,
   },
 });

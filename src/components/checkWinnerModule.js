@@ -8,7 +8,7 @@ import { IconContext } from "react-icons";
 import { ReactComponent as Yicon } from "../assets/yicon.svg";
 
 export default function checkWinnerModule() {
-  const active = useSelector((state) => state.checkWinner.active);
+  const active = useSelector((state) => state.ui.showCheckWinnerModule);
 
   var modalClass = active
     ? "z-10 fixed flex-col inset-1/2 -translate-x-1/2 -translate-y-1/2 m-auto rounded-2xl p-2 ease-in-out duration-300 translate-y-0 opacity-100 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip border border-pink bg-blue-dark shadow-pink"

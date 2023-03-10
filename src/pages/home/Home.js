@@ -1,13 +1,16 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleActive } from "../../components/checkWinner/checkWinnerSlice";
+import { setShowCheckWinnerModule } from "../../app/uiSlice";
 
 import NftModule from "./nftDisplayModule";
 import WinnerHistory from "./winnerHistory";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const active = useSelector((state) => state.checkWinner.active);
+  const showCheckWinnerModule = useSelector(
+    (state) => state.ui.showCheckWinnerModule
+  );
+
   return (
     <>
       <section className="section items-center lg:flex-row ">
@@ -28,9 +31,7 @@ export default function Home() {
               Enter Now
             </button>
             <button
-              onClick={() => (
-                dispatch(toggleActive(true)), console.log(active)
-              )}
+              onClick={() => dispatch(setShowCheckWinnerModule(true))}
               className="button-gradient button-gradient-aqua md:w-56 h-12 my-2"
             >
               Check Draw
