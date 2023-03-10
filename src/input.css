@@ -45,7 +45,7 @@
   } */
 
   svg:hover {
-    filter: drop-shadow(0 0 3px #75f2d7);
+    filter: drop-shadow(0 0 3px #70e4cb);
   }
 
   .svg-pink:hover {
@@ -56,7 +56,7 @@
     filter: drop-shadow(0 0 3px #f9ff01);
   }
   .svg-green-aqua:hover {
-    filter: drop-shadow(0 0 3px #75f2d7);
+    filter: drop-shadow(0 0 3px #70e4cb);
   }
   .text-outline-pink {
     -webkit-text-stroke: 1px #ff39b0;

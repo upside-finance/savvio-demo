@@ -12,8 +12,6 @@ export default function CheckWinnerModule() {
   const dispatch = useDispatch();
   const active = useSelector((state) => state.ui.showCheckWinnerModule);
 
-  const onClose = () => dispatch(setShowCheckWinnerModule(false));
-
   var modalClass = active
     ? "z-10 fixed flex-col inset-1/2 -translate-x-1/2 -translate-y-1/2 m-auto rounded-2xl p-2 ease-in-out duration-300 translate-y-0 opacity-100 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip border border-pink bg-blue-dark shadow-pink"
     : "z-10 fixed flex-col inset-1/2 -translate-x-1/2 m-auto rounded-2xl p-2 ease-in-out duration-300 translate-y-full opacity-0 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip border border-pink bg-blue-dark shadow-pink";
@@ -21,7 +19,7 @@ export default function CheckWinnerModule() {
   return ReactDom.createPortal(
     <>
       <div
-        onClick={() => onClose(false)}
+        onClick={() => dispatch(setShowCheckWinnerModule(false))}
         className={`fixed inset-0 bg-black/70 backdrop-blur ease-in-out
         ${active ? "opacity-100" : "hidden"}`}
       />
@@ -32,7 +30,10 @@ export default function CheckWinnerModule() {
             className: "ml-auto mr-5 my-5 text-pink text-2xl svg-pink",
           }}
         >
-          <div onClick={() => onClose(true)} className="cursor-pointer">
+          <div
+            onClick={() => dispatch(setShowCheckWinnerModule(false))}
+            className="cursor-pointer"
+          >
             <IoClose />
           </div>
         </IconContext.Provider>

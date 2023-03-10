@@ -6,9 +6,12 @@ import { nftdata } from "./oldLotteries";
 export default function oldNftModule() {
   return (
     <>
-      <div className="grid grid-cols-4 gap-20">
+      <div
+        className="grid gap-10 md:gap-20 auto-rows-auto"
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}
+      >
         {nftdata.map((lottery) => (
-          <div className="relative z-10 justify-between gradient-border bg-white lg:max-w-md h-auto rounded-lg py-6 shadow-small ">
+          <div className="relative z-10 justify-between gradient-border bg-white min-w-max h-auto rounded-xl py-6 shadow-small ">
             <div
               className="relative center mx-auto  bg-cover bg-center w-5/6 h-60 md:h-[15rem] bg-transparent rounded-xl shadow-small"
               style={{ backgroundImage: `url(${lottery.nftimage})` }}
@@ -18,7 +21,7 @@ export default function oldNftModule() {
               </div>
               <div className="absolute flex items-center w-full justify-between bottom-0 p-3 bg-white/90 rounded-xl ">
                 <p className="text-grey-dark">Total Tickets</p>
-                <p className="text-green-aqua">
+                <p className="flex text-green-aqua text-end">
                   {lottery.totaltickets != null
                     ? Intl.NumberFormat("en-US", {
                         notation: "compact",

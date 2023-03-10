@@ -14,7 +14,7 @@ const portfolio = {
 export default function Portfolio() {
   return (
     <>
-      <section className="section gradient-border z-10 relative rounded rounded-xl my-10 mx-2 md:m-32 shadow-small">
+      <section className="section gradient-border z-10 relative max-w-screen-xl rounded-xl my-10 mx-2 md:mx-auto shadow-small">
         <div className="flex flex-col lg:flex-row mx-12 my-6 justify-between">
           <IoPersonOutline className="w-20 h-20 lg:w-32 lg:h-32 mx-auto my-5 lg:m-0 fill-green-aqua stroke-green-aqua hover:filter-none" />
           <div className="flex flex-col items-center lg:flex-row gap-8 lg:gap-16">

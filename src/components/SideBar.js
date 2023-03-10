@@ -111,12 +111,12 @@ export default function SideBar() {
         <Menu
           rootStyles={{
             [`.${menuClasses.button}`]: {
-              color: "#75F2D7",
+              color: "#70E4CB",
               margin: "8px 0px",
               borderRadius: "10px",
               "&:hover": {
                 color: "white",
-                backgroundColor: "#75F2D7",
+                backgroundColor: "#70E4CB",
                 boxShadow: "2px 4px 20px #0000001A",
               },
             },

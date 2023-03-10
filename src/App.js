@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import "./input.css";
 
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import Portfolio from "./pages/portfolio/Portfolio";
 
 // according to RRD v6.4+
