@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowCheckWinnerModule } from "../../app/uiSlice";
+import CheckWinnerModule from "../../components/checkWinnerModule";
 
 import NftModule from "./nftDisplayModule";
 import WinnerHistory from "./winnerHistory";
@@ -13,6 +14,7 @@ export default function Home() {
 
   return (
     <>
+      <CheckWinnerModule />
       <section className="section items-center lg:flex-row ">
         <div className="max-w-[550px]">
           <h1 className="mt-12 md:mt-none text-grey-dark text-7xl md:text-[5.5rem] leading-[4rem] md:leading-tight">
