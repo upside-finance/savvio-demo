@@ -137,7 +137,7 @@ export default function SideBar() {
           </MenuItem>
           <MenuItem
             icon={<IoWallet size={"1.8rem"} />}
-            component={<Link to="smart-savings" />}
+            // component={<Link to="smart-savings" />}
             // eslint-disable-next-line
             onClick={() => (dispatch(sidebarValue(1)), toggleSidebar())}
           >
@@ -145,7 +145,7 @@ export default function SideBar() {
           </MenuItem>
           <MenuItem
             icon={<FaSwimmingPool size={"1.8rem"} />}
-            component={<Link to="liquidity" />}
+            // component={<Link to="liquidity" />}
             // eslint-disable-next-line
             onClick={() => (dispatch(sidebarValue(2)), toggleSidebar())}
           >
@@ -153,7 +153,7 @@ export default function SideBar() {
           </MenuItem>
           <MenuItem
             icon={<FaTrophy size={"1.8rem"} />}
-            component={<Link to="rewards" />}
+            //component={<Link to="rewards" />}
             // eslint-disable-next-line
             onClick={() => (dispatch(sidebarValue(3)), toggleSidebar())}
           >
@@ -161,7 +161,7 @@ export default function SideBar() {
           </MenuItem>
           <MenuItem
             icon={<HiCode size={"1.8rem"} />}
-            component={<Link to="developers" />}
+            //component={<Link to="developers" />}
             // eslint-disable-next-line
             onClick={() => (dispatch(sidebarValue(4)), toggleSidebar())}
           >
@@ -169,7 +169,7 @@ export default function SideBar() {
           </MenuItem>
           <MenuItem
             icon={<IoInformationCircle size={"1.8rem"} />}
-            component={<Link to="help" />}
+            //component={<Link to="help" />}
             // eslint-disable-next-line
             onClick={() => (dispatch(sidebarValue(5)), toggleSidebar())}
           >

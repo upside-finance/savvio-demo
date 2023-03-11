@@ -1,11 +1,19 @@
 import React from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setShowCheckWinnerModule } from "../../app/uiSlice";
 import nftimage from "../../assets/thumb-nft.png";
+import CheckWinnerModule from "../../components/CheckWinnerModule";
 import { nftdata } from "./oldLotteries";
 
-export default function oldNftModule() {
+export default function OldNftModule() {
+  const dispatch = useDispatch();
+  const checkWinnerActive = useSelector(
+    (state) => state.ui.showCheckWinnerModule
+  );
+
   return (
     <>
+      {checkWinnerActive ? <CheckWinnerModule /> : ""}
       <div
         className="grid gap-10 md:gap-20 auto-rows-auto"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}
@@ -48,8 +56,13 @@ export default function oldNftModule() {
                 </div>
               </div>
               <div className=" flex flex-col md:flex-row justify-around mt-5 text-xs">
-                <button className="button-aqua h-10 m-2">Enter Now</button>
-                <button className="button-gradient button-gradient-aqua h-10 m-2">
+                <button className="button-aqua  gradient-border bg-white hover:border-transparent relative z-20 h-10 m-2">
+                  Withdraw
+                </button>
+                <button
+                  onClick={() => dispatch(setShowCheckWinnerModule(true))}
+                  className="button-gradient button-gradient-aqua h-10 m-2"
+                >
                   Check Draw
                 </button>
               </div>
