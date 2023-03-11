@@ -6,6 +6,7 @@ import { IconContext } from "react-icons";
 import { GiTwoCoins } from "react-icons/gi";
 import {
   IoWalletOutline,
+  IoWallet,
   IoClose,
   IoPersonCircleOutline,
 } from "react-icons/io5";
@@ -13,7 +14,14 @@ import {
 import NavbarItems from "./navbarItems";
 import { ReactComponent as SavvioIcon } from "../assets/savvio-icon.svg";
 
+import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
+import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
+import "./navbar.css";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+
 export default function Navbar() {
+  const { account } = useWallet();
+
   //for smaller devices
   const width = useWindowWidth();
   const [menuVis, setMenuVis] = useState(false);
@@ -25,7 +33,7 @@ export default function Navbar() {
     <>
       <header className=" bg-transparent z-50 relative top-0 h-16 md:h-20">
         <nav className=" m-auto h-full">
-          {navbarElement(menuVis, setMenuVis)}
+          {navbarElement(menuVis, setMenuVis, account)}
           {/* for smaller devices */}
           {width <= 640 ? (
             <>
@@ -54,7 +62,7 @@ export default function Navbar() {
   );
 }
 
-function navbarElement(menuVis, setMenuVis) {
+function navbarElement(menuVis, setMenuVis, account) {
   return (
     <div className=" bg-transparent w-full max-w-screen-2xl m-auto flex justify-between  h-full">
       {/* <Link to="/">
@@ -74,7 +82,19 @@ function navbarElement(menuVis, setMenuVis) {
         }}
       >
         <div className="flex items-center">
-          <IoWalletOutline />
+          {account == null ? (
+            <IoWalletOutline
+              onClick={() =>
+                document.getElementsByClassName("wallet-button")?.[0]?.click()
+              }
+            />
+          ) : (
+            <IoWallet
+              onClick={() =>
+                document.getElementsByClassName("wallet-button")?.[0]?.click()
+              }
+            />
+          )}
           <div onClick={() => setMenuVis(!menuVis)}>
             <GiTwoCoins />
           </div>
@@ -82,7 +102,7 @@ function navbarElement(menuVis, setMenuVis) {
       </IconContext.Provider>
       <div className="hidden md:flex items-center ">
         <NavbarItems />
-        <div className="button-aqua-primary">Connect Wallet</div>
+        <WalletSelector />
       </div>
     </div>
   );
