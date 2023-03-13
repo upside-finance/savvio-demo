@@ -1,8 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowCheckWinnerModule } from "../../app/uiSlice";
-import nftimage from "../../assets/thumb-nft.png";
+import {
+  setShowCheckWinnerModule,
+  setShowWithdrawModule,
+  setWithdrawModuleNft,
+} from "../../app/uiSlice";
+
 import CheckWinnerModule from "../../components/CheckWinnerModule";
+import WithdrawModule from "../../components/WithdrawModule";
 import { nftdata } from "./oldLotteries";
 
 export default function OldNftModule() {
@@ -11,9 +16,16 @@ export default function OldNftModule() {
     (state) => state.ui.showCheckWinnerModule
   );
 
+  const withdrawModuleActive = useSelector(
+    (state) => state.ui.showWithdrawModule
+  );
+
+  const withdrawModuleNft = useSelector((state) => state.ui.withdrawModuleNft);
+
   return (
     <>
       {checkWinnerActive ? <CheckWinnerModule /> : ""}
+      {withdrawModuleActive ? <WithdrawModule /> : ""}
       <div
         className="grid gap-10 md:gap-20 auto-rows-auto"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}
@@ -56,7 +68,13 @@ export default function OldNftModule() {
                 </div>
               </div>
               <div className=" flex flex-col md:flex-row justify-around mt-5 text-xs">
-                <button className="button-aqua  gradient-border bg-white hover:border-transparent relative z-20 h-10 m-2">
+                <button
+                  onClick={() => (
+                    dispatch(setShowWithdrawModule(true)),
+                    dispatch(setWithdrawModuleNft(lottery.nftimage))
+                  )}
+                  className="button-aqua gradient-border bg-white hover:border-transparent relative z-20 h-10 m-2"
+                >
                   Withdraw
                 </button>
                 <button

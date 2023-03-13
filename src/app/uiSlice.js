@@ -6,6 +6,7 @@ export const uiSlice = createSlice({
     showCheckWinnerModule: false,
     showTicketsModule: false,
     showWithdrawModule: false,
+    withdrawModuleNft: "",
   },
   reducers: {
     setShowCheckWinnerModule: (state, action) => {
@@ -17,6 +18,9 @@ export const uiSlice = createSlice({
     setShowWithdrawModule: (state, action) => {
       state.showWithdrawModule = action.payload;
     },
+    setWithdrawModuleNft: (state, action) => {
+      state.withdrawModuleNft = action.payload;
+    },
   },
 });
 
@@ -24,6 +28,7 @@ export const {
   setShowCheckWinnerModule,
   setShowTicketsModule,
   setShowWithdrawModule,
+  setWithdrawModuleNft,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

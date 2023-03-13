@@ -2,20 +2,19 @@ import React, { useState, useEffect } from "react";
 import ReactDom from "react-dom";
 import { IoClose } from "react-icons/io5";
 import { IconContext } from "react-icons";
-import NumericInput from "react-numeric-input";
 
 import nftimage from "../assets/thumb-nft.png";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowTicketsModule } from "../app/uiSlice";
+import { setShowWithdrawModule } from "../app/uiSlice";
 import { numOfDP } from "../utils";
 
-export default function TicketsModule() {
-  const [stakeAmountStr, setStakeAmountStr] = useState();
+export default function WithdrawModule() {
+  const [unstakeAmountStr, setUnstakeAmountStr] = useState(null);
   const [inputErrorMsg, setInputErrorMsg] = useState("");
 
   const checkIfValidInput = () => {
-    if (stakeAmountStr != null) {
-      if (stakeAmountStr <= 0) {
+    if (unstakeAmountStr != null) {
+      if (unstakeAmountStr <= 0) {
         setInputErrorMsg("Amount must be greater than 0");
         return false;
       }
@@ -34,10 +33,12 @@ export default function TicketsModule() {
 
   useEffect(() => {
     checkIfValidInput();
-  }, [stakeAmountStr]);
+  }, [unstakeAmountStr]);
 
   const dispatch = useDispatch();
-  const active = useSelector((state) => state.ui.showTicketsModule);
+  const active = useSelector((state) => state.ui.showWithdrawModule);
+  const nft = useSelector((state) => state.ui.withdrawModuleNft);
+
   const [visibility, setVisibility] = useState(false);
 
   // Set visibility after a delay for the slide up animation to be visible.
@@ -52,7 +53,7 @@ export default function TicketsModule() {
       <div
         onClick={() => {
           setVisibility(false);
-          setTimeout(() => dispatch(setShowTicketsModule(false)), 100);
+          setTimeout(() => dispatch(setShowWithdrawModule(false)), 100);
         }}
         className={`z-50 fixed inset-0 bg-black/70 backdrop-blur ease-in-out
         ${active ? "opacity-100" : "hidden"}`}
@@ -66,7 +67,7 @@ export default function TicketsModule() {
           <div
             onClick={() => {
               setVisibility(false);
-              setTimeout(() => dispatch(setShowTicketsModule(false)), 100);
+              setTimeout(() => dispatch(setShowWithdrawModule(false)), 100);
             }}
             className="cursor-pointer"
           >
@@ -76,20 +77,20 @@ export default function TicketsModule() {
 
         <div className="h-[90%] flex flex-col">
           <h3 className="text-green-aqua uppercase text-3xl text-center">
-            Claim your tickets now
+            Withdraw your tokens
           </h3>
           <div className="m-5">
             <img
-              src={nftimage}
+              src={nft}
               alt="NFT artwork"
-              className="rounded-xl w-60 h-60 m-auto shadow-small"
+              className="object-cover rounded-xl w-60 h-60 m-auto shadow-small "
             />
             <p className="text-green-aqua mt-5 mb-2">
               Available APT (1 APT = 1 Ticket)
             </p>
             <form action="">
               <input
-                value={stakeAmountStr}
+                value={unstakeAmountStr}
                 onChange={(e) => {
                   let numStr = e.target.value;
                   const numDP = numOfDP(numStr);
@@ -98,16 +99,16 @@ export default function TicketsModule() {
                   //     ? numStr.slice(0, -(numDP - stakeToken?.decimals))
                   //     : numStr;
                   numStr = numStr.replace("-", "");
-                  setStakeAmountStr(numStr);
+                  setUnstakeAmountStr(numStr);
                 }}
                 type="number"
                 step=".01"
                 min={0}
                 placeholder="35.40"
-                className="z-20 w-full h-14 p-2 relative text-xl text-gray-dark placeholder:text-gray-light rounded-lg border-2 border-green-aqua shadow-md"
+                className="text-xl text-gray-dark placeholder:text-gray-light rounded-lg w-full h-14 p-2 gradient-border shadow-md"
               />
               <div className="text-red-500 text-sm mt-1">{inputErrorMsg}</div>
-              <button className="z-20 w-full ml-0 mt-5 button-aqua gradient-border bg-white hover:border-transparent relative ">
+              <button className="w-full mx-auto mt-5 px-5 py-2 button-gradient button-gradient-aqua">
                 Claim your tickets
               </button>
             </form>
