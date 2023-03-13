@@ -1,7 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowCheckWinnerModule } from "../../app/uiSlice";
+import { setShowTicketsModule } from "../../app/uiSlice";
 import CheckWinnerModule from "../../components/CheckWinnerModule";
+import TicketsModule from "../../components/TicketsModule";
 
 import NftModule from "./nftDisplayModule";
 import WinnerHistory from "./winnerHistory";
@@ -12,8 +14,13 @@ export default function Home() {
     (state) => state.ui.showCheckWinnerModule
   );
 
+  const ticketsModuleActive = useSelector(
+    (state) => state.ui.showTicketsModule
+  );
+
   return (
     <>
+      {ticketsModuleActive ? <TicketsModule /> : ""}
       {checkWinnerActive ? <CheckWinnerModule /> : ""}
       <section className="section items-center lg:flex-row ">
         <div className="max-w-[550px]">
@@ -29,7 +36,10 @@ export default function Home() {
             <span className="text-green-aqua font-medium">Savvio</span>.
           </p>
           <div className="flex flex-col md:flex-row justify-between mt-12 md:mt-16">
-            <button className="button-aqua md:w-56 h-12 my-2 ">
+            <button
+              onClick={() => dispatch(setShowTicketsModule(true))}
+              className="button-aqua md:w-56 h-12 my-2 "
+            >
               Enter Now
             </button>
             <button

@@ -14,7 +14,7 @@ export default function CheckWinnerModule() {
   const dispatch = useDispatch();
   const active = useSelector((state) => state.ui.showCheckWinnerModule);
   const [visibility, setVisibility] = useState(false);
-  const [winner, setWinner] = useState(false);
+  const [winner, setWinner] = useState();
 
   //animation of the spinner
   const [spinnerSpeed, setSpinnerSpeed] = useState(0);
@@ -25,8 +25,8 @@ export default function CheckWinnerModule() {
 
   //modal exit transition seems to work only sometimes
   var modalClass = visibility
-    ? "z-50 fixed flex-col justify- inset-y-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-auto rounded-2xl p-2 ease-in-out duration-300 translate-y-0 opacity-500 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip border border-green-aqua shadow-lemon "
-    : "z-50 fixed flex-col inset-y-1/2 left-1/2 -translate-x-1/2 m-auto rounded-2xl p-2 ease-in-out duration-300 translate-y-1/2 opacity-0 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip border border-green-aqua shadow-lemon ";
+    ? "z-50 fixed flex-col inset-y-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-auto rounded-lg p-2 ease-in-out duration-300 translate-y-0 opacity-500 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip  animated-gradient-border shadow-lemon "
+    : "z-50 fixed flex-col inset-y-1/2 left-1/2 -translate-x-1/2 m-auto rounded-lg p-2 ease-in-out duration-300 translate-y-1/2 opacity-0 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip  animated-gradient-border shadow-lemon ";
 
   return ReactDom.createPortal(
     <>
