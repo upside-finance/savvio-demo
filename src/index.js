@@ -12,13 +12,16 @@ import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 
 const wallets = [new PetraWallet()];
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <Provider store={store}>
-    <AptosWalletAdapterProvider plugins={wallets} autoConnect={true}>
-      <App />
-    </AptosWalletAdapterProvider>
-  </Provider>
-);
+
+window.addEventListener("load", () => {
+  root.render(
+    <Provider store={store}>
+      <AptosWalletAdapterProvider plugins={wallets} autoConnect={true}>
+        <App />
+      </AptosWalletAdapterProvider>
+    </Provider>
+  );
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
