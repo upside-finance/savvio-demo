@@ -1,9 +1,10 @@
-import React from "react";
+/* global BigInt */
+import React, { useEffect, useState } from "react";
 import Tilt from "react-parallax-tilt";
 import nftbg from "../../assets/nft-bg.png";
 import nftimage from "../../assets/thumb-nft.png";
-
-const countDown = 1678193769;
+import { useSelector } from "react-redux";
+import { truncateAddress } from "../../utils";
 
 const getReturnValues = (countDown) => {
   const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
@@ -16,13 +17,56 @@ const getReturnValues = (countDown) => {
   return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 };
 
-export default function nftDisplayModule() {
+export default function NftDisplayModule() {
+  const { gameCounter, globalGameDataTable, networkNowSecs } = useSelector(
+    (state) => state.nftPrizeGame
+  );
+
+  const [nftDisplayData, setNftDisplayData] = useState({});
+
+  useEffect(() => {
+    if (gameCounter != "0") {
+      const latestGlobalGameData = globalGameDataTable[gameCounter - 1];
+      if (latestGlobalGameData == null) return;
+
+      const newNftDisplayData = {
+        name: latestGlobalGameData["token_id"]["token_data_id"].name,
+        creator: truncateAddress(
+          latestGlobalGameData["token_id"]["token_data_id"].creator
+        ),
+        currentTickets: latestGlobalGameData["total_tickets"],
+        countDown: Math.max(
+          Number(
+            BigInt(latestGlobalGameData["staking_end_secs"]) -
+              BigInt(networkNowSecs)
+          ) * 1000,
+          0
+        ),
+      };
+
+      setNftDisplayData(newNftDisplayData);
+
+      const interval = setInterval(() => {
+        if (nftDisplayData["countDown"] !== 0) {
+          setNftDisplayData((v) => ({
+            ...v,
+            countDown: Math.max(v["countDown"] - 1000, 0),
+          }));
+        } else {
+          clearInterval(interval);
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [gameCounter, globalGameDataTable, networkNowSecs]);
+
   return (
     <div className="relative z-10 justify-between gradient-border bg-white sm:max-w-lg h-96 md:h-[36rem] rounded-lg mx-5 sm:m-auto shadow-small ">
       <div className="absolute z-10 w-full bg-white px-5 mt-3">
         <div className="flex justify-between text-grey-dark ">
-          <p className="text-2xl">Tinies #017</p>
-          <p className="text-lg">@Artistname</p>
+          <p className="text-2xl">{nftDisplayData.name}</p>
+          <p className="text-lg">{nftDisplayData.creator}</p>
         </div>
       </div>
       <div
@@ -43,15 +87,22 @@ export default function nftDisplayModule() {
             <div className="text-left">
               <p className="text-grey-dark">Current Tickets</p>
               <div>
-                <p className="text-green-aqua text-xl">1.5 Tickets</p>
+                <p className="text-green-aqua text-xl">
+                  {Intl.NumberFormat("en-US", {
+                    notation: "compact",
+                    maximumFractionDigits: 2,
+                  }).format(nftDisplayData.currentTickets)}{" "}
+                  Tickets
+                </p>
               </div>
             </div>
             <div className="text-left">
               <p className="text-grey-dark">Ending In</p>
               <div>
                 <p className="text-green-aqua text-xl">
-                  {" "}
-                  {countDown != null ? getReturnValues(countDown) : "-"}
+                  {nftDisplayData.countDown != null
+                    ? getReturnValues(nftDisplayData.countDown)
+                    : "-"}
                 </p>
               </div>
             </div>
