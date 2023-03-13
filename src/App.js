@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import "./input.css";
 
 import Navbar from "./components/navbar";
 import Portfolio from "./pages/portfolio/Portfolio";
+
+import { useDispatch, useSelector } from "react-redux";
+import { addGlobalGameData, setGameCounter } from "./app/nftPrizeGameSlice";
+import { AptosClient } from "aptos";
+import { NODE_URL, DATA_FETCHING_FREQ_MS } from "./constants";
+import { fetchNftPrizeGameCounter, fetchNftPrizeGameGlobalData } from "./api";
 
 // according to RRD v6.4+
 import {
@@ -73,5 +79,41 @@ const router = createBrowserRouter(
 );
 
 export default function App() {
+  const dispatch = useDispatch();
+  const globalGameDataTable = useSelector(
+    (state) => state.nftPrizeGame.globalGameDataTable
+  );
+
+  useEffect(() => console.log(globalGameDataTable), [globalGameDataTable]);
+
+  const fetchSetGlobalGameData = async (gameID) => {
+    const globalGameData = await fetchNftPrizeGameGlobalData(gameID);
+    dispatch(
+      addGlobalGameData({ gameID: gameID, globalGameData: globalGameData })
+    );
+  };
+
+  useEffect(() => {
+    window.aptosClient = new AptosClient(NODE_URL);
+
+    let interval;
+
+    (async function () {
+      const gameCounter = await fetchNftPrizeGameCounter();
+      dispatch(setGameCounter(gameCounter));
+
+      if (gameCounter != "0") {
+        const latestGameID = gameCounter - 1;
+        await fetchSetGlobalGameData(latestGameID);
+        interval = setInterval(
+          () => fetchSetGlobalGameData(latestGameID),
+          DATA_FETCHING_FREQ_MS
+        );
+      }
+    })();
+
+    return () => clearInterval(interval);
+  }, []);
+
   return <RouterProvider router={router} />;
 }
