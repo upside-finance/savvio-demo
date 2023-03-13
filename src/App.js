@@ -6,10 +6,18 @@ import Navbar from "./components/navbar";
 import Portfolio from "./pages/portfolio/Portfolio";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addGlobalGameData, setGameCounter } from "./app/nftPrizeGameSlice";
+import {
+  addGlobalGameData,
+  setGameCounter,
+  setNetworkNowSecs,
+} from "./app/nftPrizeGameSlice";
 import { AptosClient } from "aptos";
 import { NODE_URL, DATA_FETCHING_FREQ_MS } from "./constants";
-import { fetchNftPrizeGameCounter, fetchNftPrizeGameGlobalData } from "./api";
+import {
+  fetchNetworkTimeSecs,
+  fetchNftPrizeGameCounter,
+  fetchNftPrizeGameGlobalData,
+} from "./api";
 
 // according to RRD v6.4+
 import {
@@ -80,13 +88,14 @@ const router = createBrowserRouter(
 
 export default function App() {
   const dispatch = useDispatch();
-  const globalGameDataTable = useSelector(
-    (state) => state.nftPrizeGame.globalGameDataTable
-  );
+  const nftPrizeGameData = useSelector((state) => state.nftPrizeGame);
 
-  useEffect(() => console.log(globalGameDataTable), [globalGameDataTable]);
+  useEffect(() => console.log(nftPrizeGameData), [nftPrizeGameData]);
 
   const fetchSetGlobalGameData = async (gameID) => {
+    const networkNowSecs = await fetchNetworkTimeSecs();
+    dispatch(setNetworkNowSecs(networkNowSecs));
+
     const globalGameData = await fetchNftPrizeGameGlobalData(gameID);
     dispatch(
       addGlobalGameData({ gameID: gameID, globalGameData: globalGameData })

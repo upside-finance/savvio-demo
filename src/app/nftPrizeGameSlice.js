@@ -5,6 +5,7 @@ export const nftPrizeGameSlice = createSlice({
   initialState: {
     gameCounter: "0",
     globalGameDataTable: {},
+    networkNowSecs: null,
   },
   reducers: {
     setGameCounter: (state, action) => {
@@ -18,8 +19,12 @@ export const nftPrizeGameSlice = createSlice({
         [gameID]: globalGameData,
       };
     },
+    setNetworkNowSecs: (state, action) => {
+      state.networkNowSecs = action.payload;
+    },
   },
 });
 
-export const { setGameCounter, addGlobalGameData } = nftPrizeGameSlice.actions;
+export const { setGameCounter, addGlobalGameData, setNetworkNowSecs } =
+  nftPrizeGameSlice.actions;
 export default nftPrizeGameSlice.reducer;

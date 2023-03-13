@@ -1,3 +1,4 @@
+/* global BigInt */
 import { NFT_PRIZE_GAME_MODULE_ADDR } from "./constants";
 
 export const fetchNftPrizeGameGlobalData = async (gameID) => {
@@ -20,4 +21,15 @@ export const fetchNftPrizeGameCounter = async () => {
 
   const gameCounter = (await window.aptosClient.view(payload))[0];
   return gameCounter;
+};
+
+export const fetchNetworkTimeSecs = async () => {
+  const payload = {
+    function: `0x1::timestamp::now_seconds`,
+    type_arguments: [],
+    arguments: [],
+  };
+
+  const nowSecs = (await window.aptosClient.view(payload))[0];
+  return nowSecs;
 };
