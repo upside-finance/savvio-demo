@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowCheckWinnerModule } from "../../app/uiSlice";
 import nftimage from "../../assets/thumb-nft.png";
-import CheckWinnerModule from "../../components/CheckWinnerModule";
+import CheckWinnerModule from "../../components/checkWinnerModule";
 import { nftdata } from "./oldLotteries";
 
 export default function OldNftModule() {
