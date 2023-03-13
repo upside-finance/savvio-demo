@@ -273,3 +273,15 @@ button.gradient-border:hover::before {
   border-radius: inherit;
   background: #70e4cb;
 }
+
+.gradient-aqua {
+  background: linear-gradient(
+    -18deg,
+    #f0fe3b -10%,
+    #c9fc6e 23.414%,
+    #a6fa9d 43%,
+    #8cf9bf 70.07%,
+    #7cf8d4 88.101%,
+    #77f8dc 100%
+  );
+}
