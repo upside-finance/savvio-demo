@@ -1,5 +1,6 @@
 /* global BigInt */
 import { NFT_PRIZE_GAME_MODULE_ADDR } from "./constants";
+import { convertHexStringtoString, createResourceType } from "./utils";
 
 export const fetchNftPrizeGameGlobalData = async (gameID) => {
   const payload = {
@@ -9,6 +10,25 @@ export const fetchNftPrizeGameGlobalData = async (gameID) => {
   };
 
   const globalGameData = (await window.aptosClient.view(payload))[0];
+
+  const accountAddr = globalGameData["coin_type"]["account_address"];
+  const moduleName = convertHexStringtoString(
+    globalGameData["coin_type"]["module_name"]
+  );
+  const structName = convertHexStringtoString(
+    globalGameData["coin_type"]["struct_name"]
+  );
+  const coinResource = createResourceType(accountAddr, moduleName, structName);
+  const coinMetadata = await fetchCoinMetadata(accountAddr, coinResource);
+
+  globalGameData["coin_type"] = {
+    account_address: accountAddr,
+    module_name: moduleName,
+    struct_name: structName,
+    type: coinResource,
+    ...coinMetadata["data"],
+  };
+
   return globalGameData;
 };
 
@@ -32,4 +52,13 @@ export const fetchNetworkTimeSecs = async () => {
 
   const nowSecs = (await window.aptosClient.view(payload))[0];
   return nowSecs;
+};
+
+const fetchCoinMetadata = async (accountAddr, coinResource) => {
+  const coinMetadata = await window.aptosClient.getAccountResource(
+    accountAddr,
+    `${accountAddr}::coin::CoinInfo<${coinResource}>`
+  );
+
+  return coinMetadata;
 };
