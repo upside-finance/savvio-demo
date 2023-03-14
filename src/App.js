@@ -11,8 +11,7 @@ import {
   setGameCounter,
   setNetworkNowSecs,
 } from "./app/nftPrizeGameSlice";
-import { AptosClient } from "aptos";
-import { NODE_URL, DATA_FETCHING_FREQ_MS } from "./constants";
+import { DATA_FETCHING_FREQ_MS } from "./constants";
 import {
   fetchNetworkTimeSecs,
   fetchNftPrizeGameCounter,
@@ -103,8 +102,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    window.aptosClient = new AptosClient(NODE_URL);
-
     let interval;
 
     (async function () {

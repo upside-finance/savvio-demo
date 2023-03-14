@@ -1,5 +1,8 @@
-import { NFT_PRIZE_GAME_MODULE_ADDR } from "./constants";
+import { NFT_PRIZE_GAME_MODULE_ADDR, NODE_URL } from "./constants";
 import { convertHexStringtoString, createResourceType } from "./utils";
+import { AptosClient } from "aptos";
+
+const aptosClient = new AptosClient(NODE_URL);
 
 export const fetchNftPrizeGameGlobalData = async (gameID) => {
   const payload = {
@@ -8,7 +11,7 @@ export const fetchNftPrizeGameGlobalData = async (gameID) => {
     arguments: [gameID.toString()],
   };
 
-  const globalGameData = (await window.aptosClient.view(payload))[0];
+  const globalGameData = (await aptosClient.view(payload))[0];
 
   const accountAddr = globalGameData["coin_type"]["account_address"];
   const moduleName = convertHexStringtoString(
@@ -38,7 +41,7 @@ export const fetchNftPrizeGameCounter = async () => {
     arguments: [],
   };
 
-  const gameCounter = (await window.aptosClient.view(payload))[0];
+  const gameCounter = (await aptosClient.view(payload))[0];
   return gameCounter;
 };
 
@@ -49,12 +52,12 @@ export const fetchNetworkTimeSecs = async () => {
     arguments: [],
   };
 
-  const nowSecs = (await window.aptosClient.view(payload))[0];
+  const nowSecs = (await aptosClient.view(payload))[0];
   return nowSecs;
 };
 
 const fetchCoinMetadata = async (accountAddr, coinResource) => {
-  const coinMetadata = await window.aptosClient.getAccountResource(
+  const coinMetadata = await aptosClient.getAccountResource(
     accountAddr,
     `${accountAddr}::coin::CoinInfo<${coinResource}>`
   );
@@ -69,7 +72,7 @@ export const fetchCoinBalance = async (accountAddr, coinResource) => {
     arguments: [accountAddr],
   };
   try {
-    const coinBalance = (await window.aptosClient.view(payload))[0];
+    const coinBalance = (await aptosClient.view(payload))[0];
     return coinBalance;
   } catch (e) {
     return 0;
@@ -90,5 +93,5 @@ export const stake = async (
   };
 
   const response = await signAndSubmitTransaction(payload);
-  await window.client.waitForTransaction(response.hash);
+  await aptosClient.waitForTransaction(response.hash);
 };
