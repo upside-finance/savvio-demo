@@ -1,3 +1,4 @@
+/* global BigInt */
 import React, { useState, useEffect } from "react";
 import ReactDom from "react-dom";
 import { IoClose } from "react-icons/io5";
@@ -7,24 +8,37 @@ import NumericInput from "react-numeric-input";
 import nftimage from "../assets/thumb-nft.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowTicketsModule } from "../app/uiSlice";
-import { numOfDP } from "../utils";
+import { numOfDP, toAU, toSU } from "../utils";
 
-export default function TicketsModule() {
-  const [stakeAmountStr, setStakeAmountStr] = useState();
+import { fetchCoinBalance } from "../api";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+
+export default function TicketsModule({ gameID }) {
+  const dispatch = useDispatch();
+  const active = useSelector((state) => state.ui.showTicketsModule);
+  const globalGameDataTable = useSelector(
+    (state) => state.nftPrizeGame.globalGameDataTable
+  );
+  const { account } = useWallet();
+  const [userCoinBal, setUserCoinBal] = useState(0);
+  const [stakeAmount, setStakeAmount] = useState(0);
+  const [stakeAmountStr, setStakeAmountStr] = useState(null);
   const [inputErrorMsg, setInputErrorMsg] = useState("");
+  const [visibility, setVisibility] = useState(false);
+  const [decimals, setDecimals] = useState(0);
 
   const checkIfValidInput = () => {
-    if (stakeAmountStr != null) {
-      if (stakeAmountStr <= 0) {
+    if (stakeAmount != null) {
+      if (stakeAmount <= 0) {
         setInputErrorMsg("Amount must be greater than 0");
         return false;
       }
 
       //checks if amt entered is greater than wallet balance
-      // if (toAU(stakeAmount, stakeToken?.decimals) > userStakeTokenBalance) {
-      //   setInputErrorMsg("You do not have enough balance");
-      //   return false;
-      // }
+      if (toAU(stakeAmount, decimals) > BigInt(userCoinBal)) {
+        setInputErrorMsg("You do not have enough balance");
+        return false;
+      }
     }
 
     //resets error message
@@ -33,15 +47,32 @@ export default function TicketsModule() {
   };
 
   useEffect(() => {
-    checkIfValidInput();
+    const newStakeAmount =
+      stakeAmountStr != null && stakeAmountStr != ""
+        ? Number(stakeAmountStr)
+        : null;
+    setStakeAmount(newStakeAmount);
   }, [stakeAmountStr]);
 
-  const dispatch = useDispatch();
-  const active = useSelector((state) => state.ui.showTicketsModule);
-  const [visibility, setVisibility] = useState(false);
+  useEffect(() => {
+    checkIfValidInput();
+  }, [stakeAmount]);
 
-  // Set visibility after a delay for the slide up animation to be visible.
-  setTimeout(() => setVisibility(true), 100);
+  useEffect(() => {
+    const latestGlobalGameData = globalGameDataTable[gameID];
+    if (latestGlobalGameData == null) return;
+
+    setDecimals(latestGlobalGameData["coin_type"]["decimals"]);
+
+    fetchCoinBalance(
+      account.address,
+      latestGlobalGameData["coin_type"]["type"]
+    ).then((v) => {
+      setUserCoinBal(v);
+      // Set visibility after a delay for the slide up animation to be visible.
+      setVisibility(true);
+    });
+  }, [globalGameDataTable]);
 
   var modalClass = visibility
     ? "z-50 fixed flex-col inset-y-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-auto rounded-lg p-2 ease-in-out duration-300 translate-y-0 opacity-500 w-[30rem] max-w-full h-[39rem] max-h-full overflow-x-clip overflow-y-scroll lg:overflow-clip  animated-gradient-border bg-blue-dark shadow-green"
@@ -85,7 +116,7 @@ export default function TicketsModule() {
               className="rounded-xl w-60 h-60 m-auto shadow-small"
             />
             <p className="text-green-aqua mt-5 mb-2">
-              Available APT (1 APT = 1 Ticket)
+              {toSU(userCoinBal, decimals)} Available APT (1 APT = 1 Ticket)
             </p>
             <form action="">
               <input
@@ -93,10 +124,10 @@ export default function TicketsModule() {
                 onChange={(e) => {
                   let numStr = e.target.value;
                   const numDP = numOfDP(numStr);
-                  // numStr =
-                  //   numDP > stakeToken?.decimals
-                  //     ? numStr.slice(0, -(numDP - stakeToken?.decimals))
-                  //     : numStr;
+                  numStr =
+                    numDP > decimals
+                      ? numStr.slice(0, -(numDP - decimals))
+                      : numStr;
                   numStr = numStr.replace("-", "");
                   setStakeAmountStr(numStr);
                 }}

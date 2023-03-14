@@ -1,4 +1,3 @@
-/* global BigInt */
 import { NFT_PRIZE_GAME_MODULE_ADDR } from "./constants";
 import { convertHexStringtoString, createResourceType } from "./utils";
 
@@ -61,4 +60,18 @@ const fetchCoinMetadata = async (accountAddr, coinResource) => {
   );
 
   return coinMetadata;
+};
+
+export const fetchCoinBalance = async (accountAddr, coinResource) => {
+  const payload = {
+    function: `0x1::coin::balance`,
+    type_arguments: [coinResource],
+    arguments: [accountAddr],
+  };
+  try {
+    const coinBalance = (await window.aptosClient.view(payload))[0];
+    return coinBalance;
+  } catch (e) {
+    return 0;
+  }
 };

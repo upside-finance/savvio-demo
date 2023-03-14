@@ -1,4 +1,4 @@
 export const NODE_URL = "https://fullnode.devnet.aptoslabs.com/v1";
 export const NFT_PRIZE_GAME_MODULE_ADDR =
-  "0x3a3505ede8c83257583976a73f8592e0ae8d9704f89b248f24b1581ca0ba7646";
+  "0x3676689f84201e34386cc4bfc08aa0c20293a7556d04b0ec1620f3f06181d96e";
 export const DATA_FETCHING_FREQ_MS = 30000;

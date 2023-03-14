@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <>
-      {ticketsModuleActive ? <TicketsModule /> : ""}
+      {ticketsModuleActive ? <TicketsModule gameID={gameCounter - 1} /> : ""}
       {checkWinnerActive ? <CheckWinnerModule /> : ""}
       <section className="section items-center lg:flex-row ">
         <div className="max-w-[550px]">
