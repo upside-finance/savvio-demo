@@ -1,5 +1,6 @@
 /* global BigInt */
 import React, { useEffect, useState } from "react";
+import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowCheckWinnerModule } from "../../app/uiSlice";
 import { setShowTicketsModule } from "../../app/uiSlice";
@@ -35,6 +36,8 @@ export default function Home() {
       );
     }
   }, [gameCounter, globalGameDataTable, networkNowSecs]);
+
+  const [shortListHeight, setShortListHeight] = useState(true);
 
   return (
     <>
@@ -72,10 +75,27 @@ export default function Home() {
           <NftModule />
         </div>
       </section>
-      <section className="section gradient-border z-10 relative rounded-xl my-20 mx-auto max-w-screen-xl shadow-small">
-        <div className="mx-5 my-10 ">
+      <section className="section gradient-border z-10 relative rounded-xl pt-2 my-20 mx-auto max-w-screen-xl shadow-small">
+        <div
+          className={`mx-5 mt-10 mb-24 overflow-clip transition-all ${
+            shortListHeight ? "h-[15rem]" : "h-[fit]"
+          }`}
+        >
           <h2 className="md:ml-5 text-green-aqua text-3xl">Winner History</h2>
-          <WinnerHistory />
+          <div className="w-full">
+            <WinnerHistory />
+          </div>
+          <button
+            onClick={() => setShortListHeight(!shortListHeight)}
+            className="absolute bottom-10 inset-x-[44%] flex justify-around items-center mx-auto mt-8 button-aqua py-1 px-2 "
+          >
+            View All{" "}
+            {shortListHeight ? (
+              <IoChevronDown className="ml-4" />
+            ) : (
+              <IoChevronUp className="ml-4" />
+            )}
+          </button>
         </div>
       </section>
     </>

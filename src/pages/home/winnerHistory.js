@@ -2,15 +2,11 @@ import moment from "moment/moment";
 import React, { useState } from "react";
 import Moment from "react-moment";
 import { useWindowWidth } from "@react-hook/window-size";
-import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 
 import winners from "../../assets/transactions.json";
 
 export default function WinnerHistory() {
   const width = useWindowWidth();
-
-  const [listLength, setListLength] = useState(4);
-  const [listHeight, setListHeight] = useState("1rem");
 
   return (
     <>
@@ -126,17 +122,6 @@ export default function WinnerHistory() {
           </tbody>
         </table>
       )}
-      <button
-        onClick={() => setListLength(listLength <= 4 ? winners.length - 1 : 4)}
-        className="flex justify-between items-center mx-auto mt-8 button-aqua py-1 px-2"
-      >
-        View All{" "}
-        {listLength <= 4 ? (
-          <IoChevronDown className="ml-4" />
-        ) : (
-          <IoChevronUp className="ml-4" />
-        )}
-      </button>
     </>
   );
 }
