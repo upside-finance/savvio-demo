@@ -6,7 +6,7 @@ import {
   setWithdrawModuleNft,
 } from "../../app/uiSlice";
 
-import CheckWinnerModule from "../../components/checkWinnerModule";
+import CheckWinnerModule from "../../components/CheckWinnerModule";
 import WithdrawModule from "../../components/WithdrawModule";
 import { nftdata } from "./oldLotteries";
 
