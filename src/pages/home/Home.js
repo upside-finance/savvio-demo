@@ -1,4 +1,5 @@
-import React from "react";
+/* global BigInt */
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowCheckWinnerModule } from "../../app/uiSlice";
 import { setShowTicketsModule } from "../../app/uiSlice";
@@ -10,6 +11,9 @@ import WinnerHistory from "./winnerHistory";
 
 export default function Home() {
   const dispatch = useDispatch();
+  const { gameCounter, globalGameDataTable, networkNowSecs } = useSelector(
+    (state) => state.nftPrizeGame
+  );
   const checkWinnerActive = useSelector(
     (state) => state.ui.showCheckWinnerModule
   );
@@ -17,6 +21,20 @@ export default function Home() {
   const ticketsModuleActive = useSelector(
     (state) => state.ui.showTicketsModule
   );
+
+  const [isStakingPeriod, setIsStakingPeriod] = useState(false);
+
+  useEffect(() => {
+    if (gameCounter != "0") {
+      const latestGlobalGameData = globalGameDataTable[gameCounter - 1];
+      if (latestGlobalGameData == null) return;
+
+      setIsStakingPeriod(
+        BigInt(networkNowSecs) <=
+          BigInt(latestGlobalGameData["staking_end_secs"])
+      );
+    }
+  }, [gameCounter, globalGameDataTable, networkNowSecs]);
 
   return (
     <>
