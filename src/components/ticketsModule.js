@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setShowTicketsModule } from "../app/uiSlice";
 import { numOfDP, toAU, toSU } from "../utils";
 
-import { fetchCoinBalance } from "../api";
+import { fetchCoinBalance, stake } from "../api";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 export default function TicketsModule({ gameID }) {
@@ -19,13 +19,16 @@ export default function TicketsModule({ gameID }) {
   const globalGameDataTable = useSelector(
     (state) => state.nftPrizeGame.globalGameDataTable
   );
-  const { account } = useWallet();
+  const { account, signAndSubmitTransaction } = useWallet();
   const [userCoinBal, setUserCoinBal] = useState(0);
   const [stakeAmount, setStakeAmount] = useState(0);
   const [stakeAmountStr, setStakeAmountStr] = useState(null);
   const [inputErrorMsg, setInputErrorMsg] = useState("");
   const [visibility, setVisibility] = useState(false);
   const [decimals, setDecimals] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorScreen, setErrorScreen] = useState(false);
+  const [claimSuccess, setClaimSuccess] = useState(false);
 
   const checkIfValidInput = () => {
     if (stakeAmount != null) {
@@ -44,6 +47,35 @@ export default function TicketsModule({ gameID }) {
     //resets error message
     setInputErrorMsg("");
     return true;
+  };
+
+  const onStakeClick = async () => {
+    if (stakeAmount == null) {
+      setInputErrorMsg("Please enter an amount");
+      return;
+    }
+
+    if (!checkIfValidInput()) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const stakeAmt = toAU(stakeAmount, decimals);
+      await stake(
+        globalGameDataTable[gameID]["coin_type"]["type"],
+        gameID,
+        stakeAmt,
+        signAndSubmitTransaction
+      );
+
+      //successful claim. Modal closes on user close
+      setIsLoading(false);
+      setClaimSuccess(true);
+    } catch (error) {
+      setErrorScreen(true);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -118,30 +150,31 @@ export default function TicketsModule({ gameID }) {
             <p className="text-green-aqua mt-5 mb-2">
               {toSU(userCoinBal, decimals)} Available APT (1 APT = 1 Ticket)
             </p>
-            <form action="">
-              <input
-                value={stakeAmountStr}
-                onChange={(e) => {
-                  let numStr = e.target.value;
-                  const numDP = numOfDP(numStr);
-                  numStr =
-                    numDP > decimals
-                      ? numStr.slice(0, -(numDP - decimals))
-                      : numStr;
-                  numStr = numStr.replace("-", "");
-                  setStakeAmountStr(numStr);
-                }}
-                type="number"
-                step=".01"
-                min={0}
-                placeholder="35.40"
-                className="z-20 w-full h-14 p-2 relative text-xl text-gray-dark placeholder:text-gray-light rounded-lg border-2 border-green-aqua shadow-md"
-              />
-              <div className="text-red-500 text-sm mt-1">{inputErrorMsg}</div>
-              <button className="z-20 w-full ml-0 mt-5 button-aqua gradient-border bg-white hover:border-transparent relative ">
-                Claim your tickets
-              </button>
-            </form>
+            <input
+              value={stakeAmountStr}
+              onChange={(e) => {
+                let numStr = e.target.value;
+                const numDP = numOfDP(numStr);
+                numStr =
+                  numDP > decimals
+                    ? numStr.slice(0, -(numDP - decimals))
+                    : numStr;
+                numStr = numStr.replace("-", "");
+                setStakeAmountStr(numStr);
+              }}
+              type="number"
+              step=".01"
+              min={0}
+              placeholder="35.40"
+              className="z-20 w-full h-14 p-2 relative text-xl text-gray-dark placeholder:text-gray-light rounded-lg border-2 border-green-aqua shadow-md"
+            />
+            <div className="text-red-500 text-sm mt-1">{inputErrorMsg}</div>
+            <button
+              onClick={onStakeClick}
+              className="z-20 w-full ml-0 mt-5 button-aqua gradient-border bg-white hover:border-transparent relative "
+            >
+              Claim your tickets
+            </button>
             <p className="text-sm text-gray my-2">
               Bid will be held in escrow until there is a higher bid or until
               the auction ends

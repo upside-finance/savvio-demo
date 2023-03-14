@@ -75,3 +75,20 @@ export const fetchCoinBalance = async (accountAddr, coinResource) => {
     return 0;
   }
 };
+
+export const stake = async (
+  coinType,
+  gameID,
+  amount,
+  signAndSubmitTransaction
+) => {
+  const payload = {
+    type: "entry_function_payload",
+    function: `${NFT_PRIZE_GAME_MODULE_ADDR}::savvio_nft_prize_game::stake`,
+    type_arguments: [coinType],
+    arguments: [gameID, amount.toString()],
+  };
+
+  const response = await signAndSubmitTransaction(payload);
+  await window.client.waitForTransaction(response.hash);
+};
