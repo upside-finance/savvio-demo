@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowCheckWinnerModule } from "../../app/uiSlice";
 import { setShowTicketsModule } from "../../app/uiSlice";
-import CheckWinnerModule from "../../components/CheckWinnerModule";
-import TicketsModule from "../../components/TicketsModule";
+import CheckWinnerModule from "../../components/checkWinnerModule";
+import TicketsModule from "../../components/ticketsModule";
 
 import NftModule from "./nftDisplayModule";
 import WinnerHistory from "./winnerHistory";
