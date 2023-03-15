@@ -5,17 +5,64 @@ import { setShowCheckWinnerModule } from "../app/uiSlice";
 
 import { IoClose } from "react-icons/io5";
 import { IconContext } from "react-icons";
+import { GridLoader } from "react-spinners";
+import nftimage from "../assets/thumb-nft.png";
 
 import useAnimation from "../assets/hooks/use-animation";
 import spinner from "../assets/spinner.json";
 import fountain from "../assets/coins-fountain.json";
 import Lottie from "react-lottie-player";
 
-export default function CheckWinnerModule() {
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { claimToken } from "../api";
+import { NFT_PRIZE_GAME_MODULE_ADDR } from "../constants";
+
+export default function CheckWinnerModule({ gameID }) {
   const dispatch = useDispatch();
   const active = useSelector((state) => state.ui.showCheckWinnerModule);
+  const globalGameDataTable = useSelector(
+    (state) => state.nftPrizeGame.globalGameDataTable
+  );
+  const { account, signAndSubmitTransaction } = useWallet();
   const [visibility, setVisibility] = useState(false);
-  const [winner, setWinner] = useState(true);
+  const [winner, setWinner] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorScreen, setErrorScreen] = useState(false);
+  const [claimSuccess, setClaimSuccess] = useState(false);
+
+  const onClose = () => {
+    setVisibility(false);
+    setTimeout(() => dispatch(setShowCheckWinnerModule(false)), 100);
+  };
+
+  const clickClaimNow = async () => {
+    setIsLoading(true);
+
+    try {
+      const sender = NFT_PRIZE_GAME_MODULE_ADDR;
+      const tokenData =
+        globalGameDataTable[gameID]["token_id"]["token_data_id"];
+      const creator = tokenData["creator"];
+      const collection = tokenData["collection"];
+      const name = tokenData["name"];
+      const property_version =
+        globalGameDataTable[gameID]["token_id"]["property_version"];
+      await claimToken(
+        sender,
+        creator,
+        collection,
+        name,
+        property_version,
+        signAndSubmitTransaction
+      );
+
+      setIsLoading(false);
+      setClaimSuccess(true);
+    } catch (error) {
+      setErrorScreen(true);
+      setIsLoading(false);
+    }
+  };
 
   //animation of the spinner
   const [spinnerSpeed, setSpinnerSpeed] = useState(0);
@@ -32,10 +79,7 @@ export default function CheckWinnerModule() {
   return ReactDom.createPortal(
     <>
       <div
-        onClick={() => {
-          setVisibility(false);
-          setTimeout(() => dispatch(setShowCheckWinnerModule(false)), 100);
-        }}
+        onClick={onClose}
         className={`z-50 fixed inset-0 bg-black/70 backdrop-blur ease-in-out
         ${active ? "opacity-100" : "hidden"}`}
       />
@@ -50,6 +94,11 @@ export default function CheckWinnerModule() {
             : "bg-white")
         }
       >
+        {isLoading ? (
+          <div className="z-100 w-full h-full inset-1/2 -translate-x-1/2 -translate-y-1/2 absolute bg-slate-900/70 flex justify-center items-center">
+            <GridLoader color={"#FBCFE8"} />
+          </div>
+        ) : null}
         <Lottie
           loop
           play={winner}
@@ -62,17 +111,44 @@ export default function CheckWinnerModule() {
             className: "ml-auto mr-5 my-5 text-gray text-2xl ",
           }}
         >
-          <div
-            onClick={() => {
-              setVisibility(false);
-              setTimeout(() => dispatch(setShowCheckWinnerModule(false)), 120);
-            }}
-            className="cursor-pointer"
-          >
+          <div onClick={onClose} className="cursor-pointer">
             <IoClose />
           </div>
         </IconContext.Provider>
-        {winner == null ? (
+        {errorScreen ? (
+          <div className="flex flex-col justify-center items-center h-3/4 ">
+            <h3 className="text-green-aqua uppercase text-3xl text-center">
+              Something went wrong!
+            </h3>
+            <h3 className="text-green-aqua text-xl text-center">
+              Please try again
+            </h3>
+            <div
+              onClick={onClose}
+              className="z-20 w-max-xs md:w-2/3 ml-0 mt-5 button-aqua gradient-border bg-white hover:border-transparent relative"
+            >
+              Close
+            </div>
+          </div>
+        ) : claimSuccess ? (
+          <div className="flex flex-col justify-center items-center h-3/4 ">
+            <h3 className="text-green-aqua uppercase text-4xl text-center">
+              Sucessfully <br />
+              claimed
+            </h3>
+            <img
+              src={nftimage}
+              alt="NFT artwork"
+              className="rounded-xl w-60 h-60 m-auto shadow-small"
+            />
+            <div
+              onClick={onClose}
+              className="z-20 w-max-xs md:w-2/3 ml-0 mt-5 button-aqua gradient-border bg-white hover:border-transparent relative"
+            >
+              Close
+            </div>
+          </div>
+        ) : winner == null ? (
           <div className="h-[90%] flex flex-col">
             <h3 className="text-green-aqua uppercase text-4xl text-center">
               Check if <br /> you’re a Winner
@@ -87,9 +163,16 @@ export default function CheckWinnerModule() {
               />
 
               <button
-                onClick={() =>
-                  setSpinnerSpeed(spinnerSpeed == 0 ? animation * 100 - 100 : 0)
-                }
+                onClick={() => {
+                  setSpinnerSpeed(
+                    spinnerSpeed == 0 ? animation * 100 - 100 : 0
+                  );
+                  setTimeout(() => {
+                    globalGameDataTable[gameID]["winner"] == account.address
+                      ? setWinner(true)
+                      : setWinner(false);
+                  }, 3000);
+                }}
                 className="w-full mx-auto mt-10 px-5 py-2 button-gradient button-gradient-aqua"
               >
                 Check now
@@ -112,9 +195,12 @@ export default function CheckWinnerModule() {
             </h3>
             <div className="my-10 mx-5">
               <button
-                onClick={() =>
-                  setSpinnerSpeed(spinnerSpeed == 0 ? animation * 100 - 100 : 0)
-                }
+                onClick={() => {
+                  setSpinnerSpeed(
+                    spinnerSpeed == 0 ? animation * 100 - 100 : 0
+                  );
+                  clickClaimNow();
+                }}
                 className="w-full mx-auto mt-10 px-5 py-2 bg-white button-aqua"
               >
                 Claim now

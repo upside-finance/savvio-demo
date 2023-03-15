@@ -95,3 +95,22 @@ export const stake = async (
   const response = await signAndSubmitTransaction(payload);
   await aptosClient.waitForTransaction(response.hash);
 };
+
+export const claimToken = async (
+  sender,
+  creator,
+  collection,
+  name,
+  property_version,
+  signAndSubmitTransaction
+) => {
+  const payload = {
+    type: "entry_function_payload",
+    function: `0x3::token_transfers::claim_script`,
+    type_arguments: [],
+    arguments: [sender, creator, collection, name, property_version],
+  };
+
+  const response = await signAndSubmitTransaction(payload);
+  await aptosClient.waitForTransaction(response.hash);
+};
