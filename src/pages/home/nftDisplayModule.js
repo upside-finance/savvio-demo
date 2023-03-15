@@ -4,7 +4,7 @@ import Tilt from "react-parallax-tilt";
 import nftbg from "../../assets/nft-bg.png";
 import nftimage from "../../assets/thumb-nft.png";
 import { useSelector } from "react-redux";
-import { truncateAddress } from "../../utils";
+import { toSU, truncateAddress } from "../../utils";
 
 const getReturnValues = (countDown) => {
   const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
@@ -35,7 +35,9 @@ export default function NftDisplayModule() {
         creator: truncateAddress(
           latestGlobalGameData["token_id"]["token_data_id"].creator
         ),
-        currentTickets: latestGlobalGameData["total_tickets"],
+        totalTickets: latestGlobalGameData["total_tickets"],
+        totalStake: latestGlobalGameData["total_stake"],
+        decimals: latestGlobalGameData["coin_type"]["decimals"],
         countDown: Math.max(
           Number(
             BigInt(latestGlobalGameData["staking_end_secs"]) -
@@ -86,13 +88,13 @@ export default function NftDisplayModule() {
         <div className="mx-5 mt-2 ">
           <div className="flex justify-between mt-2 mb-1">
             <div className="text-left">
-              <p className="text-grey-dark">Current Tickets</p>
+              <p className="text-grey-dark">Total Tickets</p>
               <div>
                 <p className="text-green-aqua font-medium text-xl">
                   {Intl.NumberFormat("en-US", {
                     notation: "compact",
                     maximumFractionDigits: 2,
-                  }).format(nftDisplayData.currentTickets)}{" "}
+                  }).format(nftDisplayData.totalTickets)}{" "}
                   Tickets
                 </p>
               </div>
@@ -101,10 +103,14 @@ export default function NftDisplayModule() {
               <p className="text-grey-dark">Total Stake</p>
               <div>
                 <p className="text-green-aqua font-medium text-xl">
-                  {Intl.NumberFormat("en-US", {
-                    notation: "compact",
-                    maximumFractionDigits: 2,
-                  }).format(20200011)}{" "}
+                  {nftDisplayData.totalStake != null
+                    ? Intl.NumberFormat("en-US", {
+                        notation: "compact",
+                        maximumFractionDigits: 2,
+                      }).format(
+                        toSU(nftDisplayData.totalStake, nftDisplayData.decimals)
+                      )
+                    : ""}{" "}
                   APT
                 </p>
               </div>
