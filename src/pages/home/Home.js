@@ -26,6 +26,7 @@ export default function Home() {
   const { showCheckWinnerModule, showTicketsModule, showWithdrawModule } =
     useSelector((state) => state.ui);
 
+  const [isWinnerBeingSelected, setIsWinnerBeingSelected] = useState(false);
   const [isStakingPeriod, setIsStakingPeriod] = useState(true);
 
   useEffect(() => {
@@ -33,10 +34,15 @@ export default function Home() {
       const latestGlobalGameData = globalGameDataTable[gameCounter - 1];
       if (latestGlobalGameData == null) return;
 
-      setIsStakingPeriod(
+      const isStakingPeriod =
         BigInt(networkNowSecs) <=
-          BigInt(latestGlobalGameData["staking_end_secs"])
+        BigInt(latestGlobalGameData["staking_end_secs"]);
+
+      setIsWinnerBeingSelected(
+        !isStakingPeriod && latestGlobalGameData["winner"] == "0x0"
       );
+
+      setIsStakingPeriod(isStakingPeriod);
     }
   }, [gameCounter, globalGameDataTable, networkNowSecs]);
 
@@ -79,7 +85,7 @@ export default function Home() {
             ) : (
               <button
                 onClick={() =>
-                  account?.address != null
+                  account?.address != null && !isWinnerBeingSelected
                     ? dispatch(setShowCheckWinnerModule(true))
                     : null
                 }
@@ -103,6 +109,11 @@ export default function Home() {
         </div>
         <div className="w-full md:w-[28rem] mt-10 lg:mt-none">
           <NftModule />
+          {isWinnerBeingSelected ? (
+            <div className="text-center mt-8 animate-pulse">
+              Winner is being selected. Please wait!
+            </div>
+          ) : null}
         </div>
       </section>
       <section className="section gradient-border z-10 relative rounded-xl pt-2 my-20 mx-auto max-w-screen-xl shadow-small">
