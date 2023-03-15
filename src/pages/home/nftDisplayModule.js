@@ -23,6 +23,7 @@ export default function NftDisplayModule() {
   );
 
   const [nftDisplayData, setNftDisplayData] = useState({});
+  const [tempWalletConnect, setTempWalletConnect] = useState(false);
 
   useEffect(() => {
     if (gameCounter != "0") {
@@ -81,13 +82,13 @@ export default function NftDisplayModule() {
         </Tilt>
       </div>
 
-      <div className="absolute bottom-0 bg-white w-full rounded-b-lg">
-        <div className="mx-5 mt-2">
-          <div className="flex justify-between mt-2 mb-4 md:mb-6">
+      <div className="absolute bottom-0 bg-white/80 backdrop-blur w-full rounded-b-lg text-sm">
+        <div className="mx-5 mt-2 ">
+          <div className="flex justify-between mt-2 mb-1">
             <div className="text-left">
               <p className="text-grey-dark">Current Tickets</p>
               <div>
-                <p className="text-green-aqua text-xl">
+                <p className="text-green-aqua font-medium text-xl">
                   {Intl.NumberFormat("en-US", {
                     notation: "compact",
                     maximumFractionDigits: 2,
@@ -97,16 +98,65 @@ export default function NftDisplayModule() {
               </div>
             </div>
             <div className="text-left">
-              <p className="text-grey-dark">Ending In</p>
+              <p className="text-grey-dark">Total Stake</p>
               <div>
-                <p className="text-green-aqua text-xl">
-                  {nftDisplayData.countDown != null
-                    ? getReturnValues(nftDisplayData.countDown)
-                    : "-"}
+                <p className="text-green-aqua font-medium text-xl">
+                  {Intl.NumberFormat("en-US", {
+                    notation: "compact",
+                    maximumFractionDigits: 2,
+                  }).format(20200011)}{" "}
+                  APT
                 </p>
               </div>
             </div>
           </div>
+          <div className="flex items-center justify-center">
+            <p className="text-grey-dark">Ending In</p>
+            <div>
+              <p className="text-green-aqua text-xl ml-2">
+                {nftDisplayData.countDown != null
+                  ? getReturnValues(nftDisplayData.countDown)
+                  : "-"}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-5 bg-green-aqua rounded-b-lg ">
+          {tempWalletConnect ? (
+            <div className="flex justify-between py-2 px-5">
+              <div className="text-left">
+                <p className="text-grey-dark">Your Tickets</p>
+                <div>
+                  <p className="text-white font-medium text-xl">
+                    {Intl.NumberFormat("en-US", {
+                      notation: "compact",
+                      maximumFractionDigits: 2,
+                    }).format(1200)}{" "}
+                    Tickets
+                  </p>
+                </div>
+              </div>
+              <div className="text-left">
+                <p className="text-grey-dark">Your Stake</p>
+                <div>
+                  <p className="text-white font-medium text-xl">
+                    {Intl.NumberFormat("en-US", {
+                      notation: "compact",
+                      maximumFractionDigits: 2,
+                    }).format(3050)}{" "}
+                    APT
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => setTempWalletConnect(true)}
+              className="flex m-auto font-bold text-lg text-white py-5"
+            >
+              Connect Wallet to see your stake
+            </button>
+          )}
         </div>
       </div>
     </div>
