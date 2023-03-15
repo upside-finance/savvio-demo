@@ -1,29 +1,32 @@
 /* global BigInt */
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import React, { useEffect, useState } from "react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowCheckWinnerModule } from "../../app/uiSlice";
-import { setShowTicketsModule } from "../../app/uiSlice";
+import {
+  setShowCheckWinnerModule,
+  setShowWithdrawModule,
+  setShowTicketsModule,
+  setWithdrawModuleNft,
+} from "../../app/uiSlice";
 import CheckWinnerModule from "../../components/CheckWinnerModule";
 import TicketsModule from "../../components/TicketsModule";
+import WithdrawModule from "../../components/WithdrawModule";
+import nftimage from "../../assets/thumb-nft.png";
 
 import NftModule from "./nftDisplayModule";
 import WinnerHistory from "./winnerHistory";
 
 export default function Home() {
+  const { account } = useWallet();
   const dispatch = useDispatch();
   const { gameCounter, globalGameDataTable, networkNowSecs } = useSelector(
     (state) => state.nftPrizeGame
   );
-  const checkWinnerActive = useSelector(
-    (state) => state.ui.showCheckWinnerModule
-  );
+  const { showCheckWinnerModule, showTicketsModule, showWithdrawModule } =
+    useSelector((state) => state.ui);
 
-  const ticketsModuleActive = useSelector(
-    (state) => state.ui.showTicketsModule
-  );
-
-  const [isStakingPeriod, setIsStakingPeriod] = useState(false);
+  const [isStakingPeriod, setIsStakingPeriod] = useState(true);
 
   useEffect(() => {
     if (gameCounter != "0") {
@@ -41,8 +44,13 @@ export default function Home() {
 
   return (
     <>
-      {ticketsModuleActive ? <TicketsModule gameID={gameCounter - 1} /> : ""}
-      {checkWinnerActive ? <CheckWinnerModule gameID={gameCounter - 1} /> : ""}
+      {showTicketsModule ? <TicketsModule gameID={gameCounter - 1} /> : ""}
+      {showCheckWinnerModule ? (
+        <CheckWinnerModule gameID={gameCounter - 1} />
+      ) : (
+        ""
+      )}
+      {showWithdrawModule ? <WithdrawModule gameID={gameCounter - 1} /> : ""}
       <section className="section items-center lg:flex-row ">
         <div className="max-w-[550px]">
           <h1 className="mt-12 md:mt-none text-grey-dark text-7xl md:text-[5.5rem] leading-[4rem] md:leading-tight">
@@ -57,17 +65,39 @@ export default function Home() {
             <span className="text-green-aqua font-medium">Savvio</span>.
           </p>
           <div className="flex flex-col md:flex-row justify-between mt-12 md:mt-16">
+            {isStakingPeriod ? (
+              <button
+                onClick={() =>
+                  account?.address != null
+                    ? dispatch(setShowTicketsModule(true))
+                    : null
+                }
+                className="button-aqua md:w-56 h-12 my-2 "
+              >
+                Enter Now
+              </button>
+            ) : (
+              <button
+                onClick={() =>
+                  account?.address != null
+                    ? dispatch(setShowCheckWinnerModule(true))
+                    : null
+                }
+                className="button-gradient button-gradient-aqua md:w-56 h-12 my-2"
+              >
+                Check Draw
+              </button>
+            )}
             <button
-              onClick={() => dispatch(setShowTicketsModule(true))}
-              className="button-aqua md:w-56 h-12 my-2 "
-            >
-              Enter Now
-            </button>
-            <button
-              onClick={() => dispatch(setShowCheckWinnerModule(true))}
+              onClick={() =>
+                account?.address != null
+                  ? (dispatch(setShowWithdrawModule(true)),
+                    dispatch(setWithdrawModuleNft(nftimage)))
+                  : null
+              }
               className="button-gradient button-gradient-aqua md:w-56 h-12 my-2"
             >
-              Check Draw
+              Withdraw
             </button>
           </div>
         </div>

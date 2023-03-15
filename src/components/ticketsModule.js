@@ -9,10 +9,20 @@ import { GridLoader } from "react-spinners";
 import nftimage from "../assets/thumb-nft.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowTicketsModule } from "../app/uiSlice";
-import { addUserGameData } from "../app/nftPrizeGameSlice";
+import {
+  addUserGameData,
+  setNetworkNowSecs,
+  addGlobalGameData,
+} from "../app/nftPrizeGameSlice";
 import { numOfDP, toAU, toSU } from "../utils";
 
-import { fetchCoinBalance, stake, fetchNftPrizeGameUserData } from "../api";
+import {
+  fetchCoinBalance,
+  stake,
+  fetchNftPrizeGameUserData,
+  fetchNetworkTimeSecs,
+  fetchNftPrizeGameGlobalData,
+} from "../api";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 export default function TicketsModule({ gameID }) {
@@ -39,6 +49,16 @@ export default function TicketsModule({ gameID }) {
         gameID: gameID,
         userGameData: userGameData,
       })
+    );
+  };
+
+  const fetchSetGlobalGameData = async (gameID) => {
+    const networkNowSecs = await fetchNetworkTimeSecs();
+    dispatch(setNetworkNowSecs(networkNowSecs));
+
+    const globalGameData = await fetchNftPrizeGameGlobalData(gameID);
+    dispatch(
+      addGlobalGameData({ gameID: gameID, globalGameData: globalGameData })
     );
   };
 
@@ -86,7 +106,10 @@ export default function TicketsModule({ gameID }) {
         signAndSubmitTransaction
       );
 
-      await fetchSetUserGameData(gameID, account.address);
+      await Promise.all([
+        fetchSetUserGameData(gameID, account.address),
+        fetchSetGlobalGameData(gameID),
+      ]);
 
       //successful claim. Modal closes on user close
       setIsLoading(false);

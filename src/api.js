@@ -107,6 +107,23 @@ export const stake = async (
   await aptosClient.waitForTransaction(response.hash);
 };
 
+export const unstake = async (
+  coinType,
+  gameID,
+  amount,
+  signAndSubmitTransaction
+) => {
+  const payload = {
+    type: "entry_function_payload",
+    function: `${NFT_PRIZE_GAME_MODULE_ADDR}::savvio_nft_prize_game::unstake`,
+    type_arguments: [coinType],
+    arguments: [gameID, amount.toString()],
+  };
+
+  const response = await signAndSubmitTransaction(payload);
+  await aptosClient.waitForTransaction(response.hash);
+};
+
 export const claimToken = async (
   sender,
   creator,
