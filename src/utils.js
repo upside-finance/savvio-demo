@@ -9,15 +9,17 @@ export const truncateAddress = (address) => {
   return `${address.slice(0, 6)}...${address.slice(-5)}`;
 };
 
+const getMin = (a, b) => (a < b ? a : b);
+
 export const calcNewTickets = (
-  currentTickets,
-  balance,
-  lastUpdateSecs,
-  nowSecs,
-  stakingEndSecs
+  currTickets,
+  currBalance,
+  currNetworkSecs,
+  stakingEndSecs,
+  lastUpdateSecs
 ) =>
-  currentTickets +
-  balance * (Math.min(nowSecs, stakingEndSecs) - lastUpdateSecs);
+  currTickets +
+  currBalance * (getMin(stakingEndSecs, currNetworkSecs) - lastUpdateSecs);
 
 const getPureHexString = (hexStr) => hexStr.replace("0x", "");
 

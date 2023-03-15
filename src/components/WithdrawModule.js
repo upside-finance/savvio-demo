@@ -139,7 +139,7 @@ export default function WithdrawModule({ gameID }) {
 
     setDecimals(latestGlobalGameData["coin_type"]["decimals"]);
 
-    setUserStakedBal(latestUserGameData["user_balance"]);
+    setUserStakedBal(latestUserGameData?.["user_balance"] ?? 0);
     // Set visibility after a delay for the slide up animation to be visible.
     setVisibility(true);
   }, [globalGameDataTable]);

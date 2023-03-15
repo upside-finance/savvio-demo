@@ -4,7 +4,8 @@ import Tilt from "react-parallax-tilt";
 import nftbg from "../../assets/nft-bg.png";
 import nftimage from "../../assets/thumb-nft.png";
 import { useSelector } from "react-redux";
-import { toSU, truncateAddress } from "../../utils";
+import { toSU, truncateAddress, calcNewTickets } from "../../utils";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 const getReturnValues = (countDown) => {
   const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
@@ -18,6 +19,7 @@ const getReturnValues = (countDown) => {
 };
 
 export default function NftDisplayModule() {
+  const { account } = useWallet();
   const {
     gameCounter,
     globalGameDataTable,
@@ -35,16 +37,55 @@ export default function NftDisplayModule() {
 
       const latestUserGameData = userGameDataTable[gameCounter - 1];
 
+      const decimals = latestGlobalGameData["coin_type"]["decimals"];
+
+      const currNetworkSecs = BigInt(networkNowSecs);
+      const stakingEndSecs = BigInt(latestGlobalGameData["staking_end_secs"]);
+
+      const currTickets = BigInt(latestGlobalGameData["total_tickets"]);
+      const currBalance = BigInt(latestGlobalGameData["total_stake"]);
+      const lastUpdateSecs = BigInt(latestGlobalGameData["last_update_sec"]);
+      const latestTotalTickets = toSU(
+        calcNewTickets(
+          currTickets,
+          currBalance,
+          currNetworkSecs,
+          stakingEndSecs,
+          lastUpdateSecs
+        ),
+        decimals
+      );
+
+      let latestUserTickets = null;
+      if (latestUserGameData != null) {
+        const userCurrTickets = BigInt(latestUserGameData["user_tickets"]);
+        const userCurrBalance = BigInt(latestUserGameData["user_balance"]);
+        const userLastUpdateSec = BigInt(
+          latestUserGameData["user_last_update_sec"]
+        );
+
+        latestUserTickets = toSU(
+          calcNewTickets(
+            userCurrTickets,
+            userCurrBalance,
+            currNetworkSecs,
+            stakingEndSecs,
+            userLastUpdateSec
+          ),
+          decimals
+        );
+      }
+
       const newNftDisplayData = {
         name: latestGlobalGameData["token_id"]["token_data_id"].name,
         creator: truncateAddress(
           latestGlobalGameData["token_id"]["token_data_id"].creator
         ),
-        totalTickets: latestGlobalGameData["total_tickets"],
+        totalTickets: latestTotalTickets,
         totalStake: latestGlobalGameData["total_stake"],
-        userTickets: latestUserGameData?.["user_tickets"],
-        userStake: latestUserGameData?.["user_balance"],
-        decimals: latestGlobalGameData["coin_type"]["decimals"],
+        userTickets: latestUserTickets,
+        userStake: latestUserGameData?.["user_balance"] ?? 0,
+        decimals: decimals,
         countDown: Math.max(
           Number(
             BigInt(latestGlobalGameData["staking_end_secs"]) -
@@ -55,7 +96,7 @@ export default function NftDisplayModule() {
       };
 
       setNftDisplayData(newNftDisplayData);
-      setTempWalletConnect(latestUserGameData != null);
+      setTempWalletConnect(account?.address != null);
 
       const interval = setInterval(() => {
         if (nftDisplayData["countDown"] !== 0) {
@@ -70,7 +111,13 @@ export default function NftDisplayModule() {
 
       return () => clearInterval(interval);
     }
-  }, [gameCounter, globalGameDataTable, userGameDataTable, networkNowSecs]);
+  }, [
+    gameCounter,
+    globalGameDataTable,
+    userGameDataTable,
+    networkNowSecs,
+    account?.address,
+  ]);
 
   return (
     <div className="relative z-10 justify-between gradient-border bg-white sm:max-w-lg h-96 md:h-[36rem] rounded-lg mx-5 sm:m-auto shadow-small ">
