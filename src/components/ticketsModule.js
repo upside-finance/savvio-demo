@@ -9,9 +9,10 @@ import { GridLoader } from "react-spinners";
 import nftimage from "../assets/thumb-nft.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowTicketsModule } from "../app/uiSlice";
+import { addUserGameData } from "../app/nftPrizeGameSlice";
 import { numOfDP, toAU, toSU } from "../utils";
 
-import { fetchCoinBalance, stake } from "../api";
+import { fetchCoinBalance, stake, fetchNftPrizeGameUserData } from "../api";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 export default function TicketsModule({ gameID }) {
@@ -30,6 +31,16 @@ export default function TicketsModule({ gameID }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorScreen, setErrorScreen] = useState(false);
   const [claimSuccess, setClaimSuccess] = useState(false);
+
+  const fetchSetUserGameData = async (gameID, accountAddr) => {
+    const userGameData = await fetchNftPrizeGameUserData(accountAddr, gameID);
+    dispatch(
+      addUserGameData({
+        gameID: gameID,
+        userGameData: userGameData,
+      })
+    );
+  };
 
   const onClose = () => {
     setVisibility(false);
@@ -74,6 +85,8 @@ export default function TicketsModule({ gameID }) {
         stakeAmt,
         signAndSubmitTransaction
       );
+
+      await fetchSetUserGameData(gameID, account.address);
 
       //successful claim. Modal closes on user close
       setIsLoading(false);

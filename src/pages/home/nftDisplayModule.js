@@ -18,9 +18,12 @@ const getReturnValues = (countDown) => {
 };
 
 export default function NftDisplayModule() {
-  const { gameCounter, globalGameDataTable, networkNowSecs } = useSelector(
-    (state) => state.nftPrizeGame
-  );
+  const {
+    gameCounter,
+    globalGameDataTable,
+    userGameDataTable,
+    networkNowSecs,
+  } = useSelector((state) => state.nftPrizeGame);
 
   const [nftDisplayData, setNftDisplayData] = useState({});
   const [tempWalletConnect, setTempWalletConnect] = useState(false);
@@ -30,6 +33,8 @@ export default function NftDisplayModule() {
       const latestGlobalGameData = globalGameDataTable[gameCounter - 1];
       if (latestGlobalGameData == null) return;
 
+      const latestUserGameData = userGameDataTable[gameCounter - 1];
+
       const newNftDisplayData = {
         name: latestGlobalGameData["token_id"]["token_data_id"].name,
         creator: truncateAddress(
@@ -37,6 +42,8 @@ export default function NftDisplayModule() {
         ),
         totalTickets: latestGlobalGameData["total_tickets"],
         totalStake: latestGlobalGameData["total_stake"],
+        userTickets: latestUserGameData?.["user_tickets"],
+        userStake: latestUserGameData?.["user_balance"],
         decimals: latestGlobalGameData["coin_type"]["decimals"],
         countDown: Math.max(
           Number(
@@ -48,6 +55,7 @@ export default function NftDisplayModule() {
       };
 
       setNftDisplayData(newNftDisplayData);
+      setTempWalletConnect(latestUserGameData != null);
 
       const interval = setInterval(() => {
         if (nftDisplayData["countDown"] !== 0) {
@@ -62,7 +70,7 @@ export default function NftDisplayModule() {
 
       return () => clearInterval(interval);
     }
-  }, [gameCounter, globalGameDataTable, networkNowSecs]);
+  }, [gameCounter, globalGameDataTable, userGameDataTable, networkNowSecs]);
 
   return (
     <div className="relative z-10 justify-between gradient-border bg-white sm:max-w-lg h-96 md:h-[36rem] rounded-lg mx-5 sm:m-auto shadow-small ">
@@ -137,7 +145,7 @@ export default function NftDisplayModule() {
                     {Intl.NumberFormat("en-US", {
                       notation: "compact",
                       maximumFractionDigits: 2,
-                    }).format(1200)}{" "}
+                    }).format(nftDisplayData.userTickets)}{" "}
                     Tickets
                   </p>
                 </div>
@@ -146,20 +154,24 @@ export default function NftDisplayModule() {
                 <p className="text-grey-dark">Your Stake</p>
                 <div>
                   <p className="text-white font-medium text-xl">
-                    {Intl.NumberFormat("en-US", {
-                      notation: "compact",
-                      maximumFractionDigits: 2,
-                    }).format(3050)}{" "}
+                    {nftDisplayData.userStake != null
+                      ? Intl.NumberFormat("en-US", {
+                          notation: "compact",
+                          maximumFractionDigits: 2,
+                        }).format(
+                          toSU(
+                            nftDisplayData.userStake,
+                            nftDisplayData.decimals
+                          )
+                        )
+                      : "-"}{" "}
                     APT
                   </p>
                 </div>
               </div>
             </div>
           ) : (
-            <button
-              onClick={() => setTempWalletConnect(true)}
-              className="flex m-auto font-bold text-lg text-white py-5"
-            >
+            <button className="flex m-auto font-bold text-lg text-white py-5">
               Connect Wallet to see your stake
             </button>
           )}

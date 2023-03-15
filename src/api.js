@@ -34,6 +34,17 @@ export const fetchNftPrizeGameGlobalData = async (gameID) => {
   return globalGameData;
 };
 
+export const fetchNftPrizeGameUserData = async (userAddr, gameID) => {
+  const payload = {
+    function: `${NFT_PRIZE_GAME_MODULE_ADDR}::savvio_nft_prize_game::view_user_game_data`,
+    type_arguments: [],
+    arguments: [userAddr, gameID.toString()],
+  };
+
+  const userGameData = (await aptosClient.view(payload))[0];
+  return userGameData;
+};
+
 export const fetchNftPrizeGameCounter = async () => {
   const payload = {
     function: `${NFT_PRIZE_GAME_MODULE_ADDR}::savvio_nft_prize_game::view_game_counter`,
