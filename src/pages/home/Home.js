@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <>
       {ticketsModuleActive ? <TicketsModule gameID={gameCounter - 1} /> : ""}
-      {checkWinnerActive ? <CheckWinnerModule /> : ""}
+      {checkWinnerActive ? <CheckWinnerModule gameID={gameCounter - 1} /> : ""}
       <section className="section items-center lg:flex-row ">
         <div className="max-w-[550px]">
           <h1 className="mt-12 md:mt-none text-grey-dark text-7xl md:text-[5.5rem] leading-[4rem] md:leading-tight">
