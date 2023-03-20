@@ -146,10 +146,12 @@ export default function NftDisplayModule() {
               <p className="text-grey-dark">Total Tickets</p>
               <div>
                 <p className="text-green-aqua font-medium text-xl">
-                  {Intl.NumberFormat("en-US", {
-                    notation: "compact",
-                    maximumFractionDigits: 2,
-                  }).format(nftDisplayData.totalTickets)}{" "}
+                  {nftDisplayData.totalTickets != null
+                    ? Intl.NumberFormat("en-US", {
+                        notation: "compact",
+                        maximumFractionDigits: 2,
+                      }).format(nftDisplayData.totalTickets)
+                    : null}{" "}
                   Tickets
                 </p>
               </div>
