@@ -196,12 +196,12 @@ export default function TicketsModule({ gameID }) {
               Sucessfully <br />
               Staked {stakeAmountStr} APT
             </h3>
-            <div
+            {/* <div
               onClick={onClose}
               className="z-20 w-max-xs md:w-2/3 ml-0 mt-5 button-aqua gradient-border bg-white hover:border-transparent relative"
             >
               Close
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="h-[90%] flex flex-col">

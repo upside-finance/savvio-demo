@@ -29,6 +29,7 @@ export default function CheckWinnerModule({ gameID }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorScreen, setErrorScreen] = useState(false);
   const [claimSuccess, setClaimSuccess] = useState(false);
+  const [buttonText, setButtonText] = useState("CHECK NOW");
 
   const onClose = () => {
     setVisibility(false);
@@ -172,13 +173,14 @@ export default function CheckWinnerModule({ gameID }) {
                       ? setWinner(true)
                       : setWinner(false);
                   }, 3000);
+                  setButtonText("CHECKING...");
                 }}
-                className="w-full mx-auto mt-10 px-5 py-2 button-gradient button-gradient-aqua"
+                className="w-full uppercase mx-auto mt-10 px-5 py-2 button-gradient button-gradient-aqua"
               >
-                Check now
+                {buttonText}
               </button>
 
-              <p className="text-sm text-slate-700 my-2">
+              <p className="text-xs text-gray-dark text-center my-2">
                 Bid will be held in escrow until there is a higher bid or until
                 the auction ends
               </p>
@@ -206,7 +208,7 @@ export default function CheckWinnerModule({ gameID }) {
                 Claim now
               </button>
 
-              <p className="text-sm text-slate-700 my-2">
+              <p className="text-xs text-gray-dark text-center  my-2">
                 Bid will be held in escrow until there is a higher bid or until
                 the auction ends
               </p>
@@ -222,11 +224,11 @@ export default function CheckWinnerModule({ gameID }) {
               <br /> <span className="text-6xl ">next time</span>
             </h3>
             <div className="my-10 mx-5">
-              <button className="w-full mx-auto mt-10 px-5 py-2 bg-white shadow-md shadow-gray-300 rounded text-gray-300 cursor-default">
+              <button className="uppercase w-full mx-auto mt-10 px-5 py-2 bg-white shadow-md shadow-gray-300 rounded text-gray-300 cursor-default">
                 Claim now
               </button>
 
-              <p className="text-sm text-gray-300 my-2">
+              <p className="text-xs text-gray-dark text-center  my-2">
                 Bid will be held in escrow until there is a higher bid or until
                 the auction ends
               </p>
