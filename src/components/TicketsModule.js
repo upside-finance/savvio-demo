@@ -40,6 +40,7 @@ export default function TicketsModule({ gameID }) {
   const [decimals, setDecimals] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [errorScreen, setErrorScreen] = useState(false);
+  const [errorScreenMsg, setErrorScreenMsg] = useState(null);
   const [claimSuccess, setClaimSuccess] = useState(false);
 
   const fetchSetUserGameData = async (gameID, accountAddr) => {
@@ -98,22 +99,31 @@ export default function TicketsModule({ gameID }) {
 
     setIsLoading(true);
     try {
-      const stakeAmt = toAU(stakeAmount, decimals);
-      await stake(
-        globalGameDataTable[gameID]["coin_type"]["type"],
-        gameID,
-        stakeAmt,
-        signAndSubmitTransaction
-      );
-
-      await Promise.all([
-        fetchSetUserGameData(gameID, account.address),
-        fetchSetGlobalGameData(gameID),
+      const [globalGameData, networkNowSecs] = await Promise.all([
+        fetchNftPrizeGameGlobalData(gameID),
+        fetchNetworkTimeSecs(),
       ]);
 
-      //successful claim. Modal closes on user close
+      if (networkNowSecs < globalGameData["staking_end_secs"]) {
+        const stakeAmt = toAU(stakeAmount, decimals);
+        await stake(
+          globalGameDataTable[gameID]["coin_type"]["type"],
+          gameID,
+          stakeAmt,
+          signAndSubmitTransaction
+        );
+
+        await Promise.all([
+          fetchSetUserGameData(gameID, account.address),
+          fetchSetGlobalGameData(gameID),
+        ]);
+
+        setClaimSuccess(true);
+      } else {
+        setErrorScreenMsg("Time to enter game has ended!");
+        setErrorScreen(true);
+      }
       setIsLoading(false);
-      setClaimSuccess(true);
     } catch (error) {
       setErrorScreen(true);
       setIsLoading(false);
@@ -178,11 +188,15 @@ export default function TicketsModule({ gameID }) {
         {errorScreen ? (
           <div className="flex flex-col justify-center items-center h-3/4 ">
             <h3 className="text-green-aqua uppercase text-3xl text-center">
-              Something went wrong!
+              {errorScreenMsg != null
+                ? errorScreenMsg
+                : "Something went wrong!"}
             </h3>
-            <h3 className="text-green-aqua text-xl text-center">
-              Please try again
-            </h3>
+            {errorScreenMsg == null ? (
+              <h3 className="text-green-aqua text-xl text-center">
+                Please try again
+              </h3>
+            ) : null}
             <div
               onClick={onClose}
               className="z-20 w-max-xs md:w-2/3 ml-0 mt-5 button-aqua gradient-border bg-white hover:border-transparent relative"

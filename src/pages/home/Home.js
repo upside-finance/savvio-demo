@@ -27,7 +27,7 @@ export default function Home() {
     useSelector((state) => state.ui);
 
   const [isWinnerBeingSelected, setIsWinnerBeingSelected] = useState(false);
-  const [isStakingPeriod, setIsStakingPeriod] = useState();
+  const [isStakingPeriod, setIsStakingPeriod] = useState(true);
 
   useEffect(() => {
     if (gameCounter != "0") {
