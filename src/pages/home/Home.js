@@ -27,7 +27,7 @@ export default function Home() {
     useSelector((state) => state.ui);
 
   const [isWinnerBeingSelected, setIsWinnerBeingSelected] = useState(false);
-  const [isStakingPeriod, setIsStakingPeriod] = useState(true);
+  const [isStakingPeriod, setIsStakingPeriod] = useState();
 
   useEffect(() => {
     if (gameCounter != "0") {
@@ -74,7 +74,7 @@ export default function Home() {
             {isStakingPeriod ? (
               <button
                 onClick={() =>
-                  account?.address != null
+                  account?.address != null && isStakingPeriod == true
                     ? dispatch(setShowTicketsModule(true))
                     : null
                 }
@@ -85,7 +85,9 @@ export default function Home() {
             ) : (
               <button
                 onClick={() =>
-                  account?.address != null && !isWinnerBeingSelected
+                  account?.address != null &&
+                  isWinnerBeingSelected == false &&
+                  isStakingPeriod == false
                     ? dispatch(setShowCheckWinnerModule(true))
                     : null
                 }
