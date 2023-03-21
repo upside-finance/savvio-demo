@@ -179,12 +179,12 @@ export default function WithdrawModule({ gameID }) {
             <h3 className="text-green-aqua text-xl text-center">
               Please try again
             </h3>
-            <div
+            {/* <div
               onClick={onClose}
               className="z-20 w-max-xs md:w-2/3 ml-0 mt-5 button-aqua gradient-border bg-white hover:border-transparent relative"
             >
               Close
-            </div>
+            </div> */}
           </div>
         ) : claimSuccess ? (
           <div className="flex flex-col justify-center items-center h-3/4 ">
@@ -192,12 +192,12 @@ export default function WithdrawModule({ gameID }) {
               Sucessfully <br />
               Unstaked {unstakeAmountStr} APT
             </h3>
-            <div
+            {/* <div
               onClick={onClose}
               className="z-20 w-max-xs md:w-2/3 ml-0 mt-5 button-aqua gradient-border bg-white hover:border-transparent relative"
             >
               Close
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="h-[90%] flex flex-col">
@@ -238,7 +238,7 @@ export default function WithdrawModule({ gameID }) {
               >
                 Withdraw Tokens
               </button>
-              <p className="text-sm text-gray my-2">
+              <p className="text-xs text-gray-dark text-center  my-2">
                 Bid will be held in escrow until there is a higher bid or until
                 the auction ends
               </p>

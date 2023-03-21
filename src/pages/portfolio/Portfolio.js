@@ -1,7 +1,8 @@
 import React from "react";
 
 import OldNftModule from "./oldNftModule";
-import { HiUserCircle } from "react-icons/hi2";
+
+import { ReactComponent as Profile } from "../../assets/profile.svg";
 
 const portfolio = {
   totalBalance: 949103,
@@ -15,7 +16,7 @@ export default function Portfolio() {
     <>
       <section className="section gradient-border z-10 relative max-w-screen-xl rounded-xl my-10 mx-2 md:mx-auto shadow-small">
         <div className="flex flex-col lg:flex-row mx-12 my-6 justify-between">
-          <HiUserCircle className="w-20 h-20 lg:w-36 lg:h-36 mx-auto my-5 lg:m-0 fill-green-aqua stroke-green-aqua hover:filter-none" />
+          <Profile className="w-20 h-20 lg:w-36 lg:h-36 mx-auto my-5 lg:m-0 hover:filter-none" />
           <div className="flex flex-col items-center lg:flex-row gap-8 lg:gap-16">
             <div>
               <p className="text-2xl text-green-aqua">Total Balance</p>
@@ -52,7 +53,7 @@ export default function Portfolio() {
             </h2>
             <p className="md:ml-5 md:my-5 text-2xl">
               View all your recent draws,{" "}
-              <span className="italic text-green-aqua font-semibold">
+              <span className="text-gradient-aqua font-bold italic bg-clip-text text-transparent">
                 check if you’re a winner,
               </span>{" "}
               and withdraw with ease below.

@@ -181,8 +181,8 @@ export default function CheckWinnerModule({ gameID }) {
               </button>
 
               <p className="text-xs text-gray-dark text-center my-2">
-                Bid will be held in escrow until there is a higher bid or until
-                the auction ends
+                If a gradient appears you're a winner, congratulations! If the
+                box is white sorry, better luck next time!
               </p>
             </div>
           </div>
@@ -209,8 +209,8 @@ export default function CheckWinnerModule({ gameID }) {
               </button>
 
               <p className="text-xs text-gray-dark text-center  my-2">
-                Bid will be held in escrow until there is a higher bid or until
-                the auction ends
+                If a gradient appears you're a winner, congratulations! If the
+                box is white sorry, better luck next time!
               </p>
             </div>
           </div>
@@ -229,8 +229,8 @@ export default function CheckWinnerModule({ gameID }) {
               </button>
 
               <p className="text-xs text-gray-dark text-center  my-2">
-                Bid will be held in escrow until there is a higher bid or until
-                the auction ends
+                If a gradient appears you're a winner, congratulations! If the
+                box is white sorry, better luck next time!
               </p>
             </div>
           </div>
