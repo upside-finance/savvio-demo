@@ -1,12 +1,20 @@
 import moment from "moment/moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useWindowWidth } from "@react-hook/window-size";
 
-import winners from "../../assets/transactions.json";
+import { fetchWinnerHistory } from "../../api";
 
 export default function WinnerHistory() {
   const width = useWindowWidth();
+  const [winners, setWinners] = useState([]);
+
+  useEffect(() => {
+    (async function () {
+      const winnerData = (await fetchWinnerHistory()).reverse();
+      setWinners(winnerData);
+    })();
+  }, []);
 
   return (
     <>
@@ -16,7 +24,7 @@ export default function WinnerHistory() {
           <thead>
             <tr>
               <th className="text-green-aqua px-5 md:text-sm lg:text-lg font-medium  pr-10">
-                Transaction ID
+                Game ID
               </th>
               <th className="text-green-aqua px-5 md:text-sm lg:text-lg font-medium  pr-10">
                 Date/Time
@@ -25,7 +33,7 @@ export default function WinnerHistory() {
                 Winner
               </th>
               <th className="text-green-aqua px-5 md:text-sm lg:text-lg font-medium  pr-10">
-                Prize ID
+                NFT
               </th>
             </tr>
           </thead>
@@ -40,28 +48,27 @@ export default function WinnerHistory() {
                     {/* first 4 and last 4 characters of TxID */}
                     <td>
                       <div className="p-5 md:text-sm lg:text-lg ">
-                        {winner.transaction_id.substring(0, 4)}...
-                        {winner.transaction_id.substring(
-                          winner.transaction_id.length - 4
-                        )}
+                        {winner?.game_id}
                       </div>
                     </td>
                     <td>
                       <div className="p-5 md:text-sm lg:text-lg ">
-                        {<Moment unix date={winner.timestamp} />}
+                        {<Moment unix date={winner?.["selection_sec"]} />}
                       </div>
                     </td>
                     {/* first 4 and last 4 characters of account address */}
                     <td>
                       <div className="p-5 md:text-sm lg:text-lg ">
-                        {winner.account.substring(0, 4)}...
-                        {winner.account.substring(winner.account.length - 4)}
+                        {winner?.["winner"]?.substring(0, 6)}...
+                        {winner?.["winner"]?.substring(
+                          winner?.["winner"].length - 4
+                        )}
                       </div>
                     </td>
                     <td>
                       <div>
                         <div className="p-5 md:text-sm lg:text-lg ">
-                          {winner.prize_id}
+                          {winner?.["token_id"]?.["token_data_id"]?.["name"]}
                         </div>
                       </div>
                     </td>
@@ -90,16 +97,14 @@ export default function WinnerHistory() {
                 <tr>
                   {/* first 4 and last 4 characters of TxID */}
                   <td>
-                    <div className="p-2">
-                      {winner.transaction_id.substring(0, 4)}...
-                    </div>
+                    <div className="p-2">{winner?.game_id}</div>
                   </td>
                   <td>
                     <div className="p-2">
                       {
                         <Moment
                           unix
-                          date={winner.timestamp}
+                          date={winner?.["selection_sec"]}
                           format="DD MMM 'YY"
                         />
                       }
@@ -108,12 +113,12 @@ export default function WinnerHistory() {
                   {/* first 4 and last 4 characters of account address */}
                   <td>
                     <div className="p-2">
-                      {winner.account.substring(0, 4)}...
+                      {winner?.["winner"]?.substring(0, 6)}
                     </div>
                   </td>
                   <td>
                     <div className="p-2">
-                      {winner.prize_id.substring(0, 4)}...
+                      {winner?.["token_id"]?.["token_data_id"]?.["name"]}
                     </div>
                   </td>
                 </tr>

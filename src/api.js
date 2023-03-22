@@ -142,3 +142,15 @@ export const claimToken = async (
   const response = await signAndSubmitTransaction(payload);
   await aptosClient.waitForTransaction(response.hash);
 };
+
+export const fetchWinnerHistory = async (gameID) => {
+  const events = await aptosClient.getEventsByEventHandle(
+    NFT_PRIZE_GAME_MODULE_ADDR,
+    `${NFT_PRIZE_GAME_MODULE_ADDR}::savvio_nft_prize_game::SavvioNftPrizeGameGlobalDataStore`,
+    "set_winner_event"
+  );
+
+  const eventsData = events.map((v) => v.data);
+
+  return eventsData;
+};
